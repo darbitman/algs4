@@ -34,7 +34,8 @@ public class KdTree {
         checkNull(p, "insert() has null argument");
         if (this.root == null) {
             this.root = new Node(p, this.X, new RectHV(0, 0, 1, 1));
-        } else {
+        }
+        else {
             Node parent = findParent(p);
             Point2D parentPoint = parent.point;
             RectHV parentRect = parent.rect;
@@ -43,22 +44,26 @@ public class KdTree {
             if (!p.equals(parent.point)) {
                 if (parent.orientation == this.X) {
                     if (p.x() <= parentPoint.x()) {
-                        parent.left = new Node(p, this.Y, new RectHV(parentRect.xmin(), parentRect.ymin(), parentPoint.x(), parentRect.ymax()));
+                        parent.left = new Node(p, this.Y,
+                                new RectHV(parentRect.xmin(), parentRect.ymin(), parentPoint.x(), parentRect.ymax()));
                     }
                     else {
-                        parent.right = new Node(p, this.Y, new RectHV(parentPoint.x(), parentRect.ymin(), parentRect.xmax(), parentRect.ymax()));
-                    }
-                    else {
-                        if (p.y() <= parentPoint.y()) {
-                            parent.left = new Node(p, this.X, new RectHV(parentRect.xmin(), parentRect.ymin(), parentRect.xmax(), parentPoint.y()));
-                        }
-                        else {
-                            parent.right = new Node(p, this.X, new RectHV(parentRect.xmin(), parentPoint.y(), parentRect.xmax(), parentRect.ymax()));
-                        }
+                        parent.right = new Node(p, this.Y,
+                                new RectHV(parentPoint.x(), parentRect.ymin(), parentRect.xmax(), parentRect.ymax()));
                     }
                 }
-                this.size++;
+                else {
+                    if (p.y() <= parentPoint.y()) {
+                        parent.left = new Node(p, this.X,
+                                new RectHV(parentRect.xmin(), parentRect.ymin(), parentRect.xmax(), parentPoint.y()));
+                    }
+                    else {
+                        parent.right = new Node(p, this.X,
+                                new RectHV(parentRect.xmin(), parentPoint.y(), parentRect.xmax(), parentRect.ymax()));
+                    }
+                }
             }
+            this.size++;
         }
     }
 
@@ -73,7 +78,8 @@ public class KdTree {
             if (currentNode.orientation == this.X) {
                 if (p.x() <= currentNode.point.x()) {
                     currentNode = currentNode.left;
-                } else {
+                }
+                else {
                     currentNode = currentNode.right;
                 }
             }
@@ -82,7 +88,8 @@ public class KdTree {
             else {
                 if (p.y() <= currentNode.point.y()) {
                     currentNode = currentNode.left;
-                } else {
+                }
+                else {
                     currentNode = currentNode.right;
                 }
             }
@@ -101,44 +108,37 @@ public class KdTree {
     // does the set contain point p?
     public boolean contains(Point2D p) {
         checkNull(p, "contains() has null argument");
-        return contains(p, this.root);
-    }
 
-    private boolean contains(Point2D p, Node n) {
-        if (n == null) {
-            return false;
-        } else if (p.x() == n.point.x() && p.y() == n.point.y()) {
-            return true;
-        } else if (n.orientation == this.X) {
-            if (p.x() < n.point.x()) {
-                return contains(p, n.left);
-            } else if (p.x() > n.point.x()) {
-                return contains(p, n.right);
-            }
-        } else if (n.orientation == this.Y) {
-            if (p.y() < n.point.y()) {
-                return contains(p, n.left);
-            } else if (p.y() > n.point.y()) {
-                return contains(p, n.right);
-            }
-        }
-        return false;
+        // findParent returns the node that contains the point IF it contains the point
+        Node parent = findParent(p);
+        return p.equals(parent.point);
     }
 
     // all points that are inside the rectangle (or on the boundary)
     public Iterable<Point2D> range(RectHV rect) {
         checkNull(rect, "range() has null argument");
         LinkedList<Point2D> pointsInsideRect = new LinkedList<Point2D>();
-        range(root, rect, pointsInsideRect);
+        range(rect, root, pointsInsideRect);
         return pointsInsideRect;
     }
 
-    private void range(Node n, RectHV rect, LinkedList<Point2D> list) {
+    private void range(RectHV rect, Node n, LinkedList<Point2D> list) {
+        if (n == null) {
+            return;
+        }
+        if (rect.contains(n.point)) {
+            list.add(n.point);
+        }
+        if (n != null && rect.intersects(n.left.rect)) {
+            range(rect, n.left, list);
+        }
+        if (n != null && rect.intersects(n.right.rect)) {
+            range(rect, n.right, list);
+        }
     }
 
     // a nearest neighbor in the set to point p; null if the set is empty
     public Point2D nearest(Point2D p) {
-
         return null;
     }
 
