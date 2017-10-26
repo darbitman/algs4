@@ -75,17 +75,17 @@ public class PointSET {
     }
 
     public static void main(String[] args) {
-        PointSET points = new PointSET();
-        try {
-            File inputFile = new File("C:\\Users\\Dmitriy\\eclipse-workspace\\05_kdtree-testing\\src\\input100K.txt");
-            Scanner sc = new Scanner(inputFile);
-            while (sc.hasNext()) {
-                points.insert(new Point2D(Double.parseDouble(sc.next()), Double.parseDouble(sc.next())));
-            }
-            sc.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found");
-        }
-        // points.draw();
+//        PointSET points = new PointSET();
+//        try {
+//            File inputFile = new File("C:\\Users\\Dmitriy\\eclipse-workspace\\05_kdtree-testing\\src\\input100K.txt");
+//            Scanner sc = new Scanner(inputFile);
+//            while (sc.hasNext()) {
+//                points.insert(new Point2D(Double.parseDouble(sc.next()), Double.parseDouble(sc.next())));
+//            }
+//            sc.close();
+//        } catch (FileNotFoundException e) {
+//            System.out.println("File not found");
+//        }
+//        points.draw();
     }
 }

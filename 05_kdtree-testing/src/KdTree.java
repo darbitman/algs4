@@ -7,6 +7,7 @@ public class KdTree {
     private int size;
     private final int X = 1;
     private final int Y = 2;
+    private Point2D closest;
 
     private class Node {
         private Point2D point;
@@ -34,8 +35,7 @@ public class KdTree {
         checkNull(p, "insert() has null argument");
         if (this.root == null) {
             this.root = new Node(p, this.X, new RectHV(0, 0, 1, 1));
-        }
-        else {
+        } else {
             Node parent = findParent(p);
             Point2D parentPoint = parent.point;
             RectHV parentRect = parent.rect;
@@ -46,18 +46,15 @@ public class KdTree {
                     if (p.x() <= parentPoint.x()) {
                         parent.left = new Node(p, this.Y,
                                 new RectHV(parentRect.xmin(), parentRect.ymin(), parentPoint.x(), parentRect.ymax()));
-                    }
-                    else {
+                    } else {
                         parent.right = new Node(p, this.Y,
                                 new RectHV(parentPoint.x(), parentRect.ymin(), parentRect.xmax(), parentRect.ymax()));
                     }
-                }
-                else {
+                } else {
                     if (p.y() <= parentPoint.y()) {
                         parent.left = new Node(p, this.X,
                                 new RectHV(parentRect.xmin(), parentRect.ymin(), parentRect.xmax(), parentPoint.y()));
-                    }
-                    else {
+                    } else {
                         parent.right = new Node(p, this.X,
                                 new RectHV(parentRect.xmin(), parentPoint.y(), parentRect.xmax(), parentRect.ymax()));
                     }
@@ -78,8 +75,7 @@ public class KdTree {
             if (currentNode.orientation == this.X) {
                 if (p.x() <= currentNode.point.x()) {
                     currentNode = currentNode.left;
-                }
-                else {
+                } else {
                     currentNode = currentNode.right;
                 }
             }
@@ -88,8 +84,7 @@ public class KdTree {
             else {
                 if (p.y() <= currentNode.point.y()) {
                     currentNode = currentNode.left;
-                }
-                else {
+                } else {
                     currentNode = currentNode.right;
                 }
             }
@@ -139,13 +134,58 @@ public class KdTree {
 
     // a nearest neighbor in the set to point p; null if the set is empty
     public Point2D nearest(Point2D p) {
-        return null;
+        checkNull(p, "nearest() has null argument");
+        if (isEmpty()) {
+            return null;
+        } else {
+            Point2D closest = root.point;
+            nearest(root, p);
+            return closest;
+        }
+    }
+
+    private void nearest(Node n, Point2D p) {
+        double currentDistance = closest.distanceSquaredTo(p);
+
+        // if inside node's rectangle or if rectangle is close to point
+        if (n != null && n.rect.distanceSquaredTo(p) < currentDistance) {
+            closest = n.point;
+        }
+        
+        if (n.orientation == this.X) {
+            if (p.x() <= n.point.x()) {
+                nearest(n.left, p);
+                nearest(n.right, p);
+            }
+            else {
+                nearest(n.right, p);
+                nearest(n.left, p);
+            }
+        }
+        else {
+            if (p.y() <= n.point.y()) {
+                nearest(n.left, p);
+                nearest(n.right, p);
+            }
+            else {
+                nearest(n.right, p);
+                nearest(n.left, p);
+            }
+        }
     }
 
     private void checkNull(Object o, String msg) {
         if (o == null) {
             throw new java.lang.IllegalArgumentException(msg);
         }
+    }
+
+    public boolean isEmpty() {
+        return size() == 0;
+    }
+
+    public int size() {
+        return this.size;
     }
 
     public static void main(String[] args) {
