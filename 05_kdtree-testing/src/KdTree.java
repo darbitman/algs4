@@ -8,10 +8,10 @@ import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.StdDraw;
 
 public class KdTree {
+    private static final int X_DIR = 1;
+    private static final int Y_DIR = 2;
     private Node root;
     private int size;
-    private static final int xDir = 1;
-    private static final int yDir = 2;
     private Point2D closest;
 
     private class Node {
@@ -39,7 +39,7 @@ public class KdTree {
     public void insert(Point2D p) {
         checkNull(p, "insert() has null argument");
         if (this.root == null) {
-            this.root = new Node(p, KdTree.xDir, new RectHV(0, 0, 1, 1));
+            this.root = new Node(p, KdTree.X_DIR, new RectHV(0, 0, 1, 1));
             this.size++;
         } else {
             Node parent = findParent(p);
@@ -48,20 +48,20 @@ public class KdTree {
 
             // add new node if point isn't equal
             if (!p.equals(parent.point)) {
-                if (parent.orientation == KdTree.xDir) {
+                if (parent.orientation == KdTree.X_DIR) {
                     if (p.x() <= parentPoint.x()) {
-                        parent.left = new Node(p, KdTree.yDir,
+                        parent.left = new Node(p, KdTree.Y_DIR,
                                 new RectHV(parentRect.xmin(), parentRect.ymin(), parentPoint.x(), parentRect.ymax()));
                     } else {
-                        parent.right = new Node(p, KdTree.yDir,
+                        parent.right = new Node(p, KdTree.Y_DIR,
                                 new RectHV(parentPoint.x(), parentRect.ymin(), parentRect.xmax(), parentRect.ymax()));
                     }
                 } else {
                     if (p.y() <= parentPoint.y()) {
-                        parent.left = new Node(p, KdTree.xDir,
+                        parent.left = new Node(p, KdTree.X_DIR,
                                 new RectHV(parentRect.xmin(), parentRect.ymin(), parentRect.xmax(), parentPoint.y()));
                     } else {
-                        parent.right = new Node(p, KdTree.xDir,
+                        parent.right = new Node(p, KdTree.X_DIR,
                                 new RectHV(parentRect.xmin(), parentPoint.y(), parentRect.xmax(), parentRect.ymax()));
                     }
                 }
@@ -78,7 +78,7 @@ public class KdTree {
             parent = currentNode;
 
             // left-right orientation
-            if (currentNode.orientation == KdTree.xDir) {
+            if (currentNode.orientation == KdTree.X_DIR) {
                 if (p.x() <= currentNode.point.x()) {
                     currentNode = currentNode.left;
                 } else {
@@ -109,7 +109,9 @@ public class KdTree {
     // does the set contain point p?
     public boolean contains(Point2D p) {
         checkNull(p, "contains() has null argument");
-
+        if (isEmpty()) {
+            return false;
+        }
         // findParent returns the node that contains the point IF it contains the point
         Node parent = findParent(p);
         return p.equals(parent.point);
@@ -130,10 +132,10 @@ public class KdTree {
         if (rect.contains(n.point)) {
             list.add(n.point);
         }
-        if (rect.intersects(n.left.rect)) {
+        if (n.left != null && rect.intersects(n.left.rect)) {
             range(rect, n.left, list);
         }
-        if (rect.intersects(n.right.rect)) {
+        if (n.right != null && rect.intersects(n.right.rect)) {
             range(rect, n.right, list);
         }
     }
@@ -158,7 +160,7 @@ public class KdTree {
             if (p.distanceSquaredTo(n.point) < currentDistance) {
                 closest = n.point;
             }
-            if (n.orientation == KdTree.xDir) {
+            if (n.orientation == KdTree.X_DIR) {
                 if (p.x() <= n.point.x()) {
                     nearest(n.left, p);
                     nearest(n.right, p);
@@ -207,7 +209,7 @@ public class KdTree {
         if (n != null) {
             StdDraw.setPenColor(StdDraw.BLACK);
             StdDraw.point(n.point.x(), n.point.y());
-            if (n.orientation == KdTree.xDir) {
+            if (n.orientation == KdTree.X_DIR) {
                 StdDraw.setPenColor(StdDraw.RED);
                 StdDraw.line(n.point.x(), n.rect.ymin(), n.point.x(), n.rect.ymax());
             } else {

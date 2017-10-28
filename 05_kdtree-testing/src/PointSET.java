@@ -62,7 +62,7 @@ public class PointSET {
         checkNull(p, "nearest() has null argument");
         Point2D nearestPoint = null;
         for (Point2D q : this.set) {
-            if (p.distanceTo(q) < p.distanceTo(nearestPoint) || nearestPoint == null) {
+            if (p.distanceSquaredTo(q) < p.distanceSquaredTo(nearestPoint) || nearestPoint == null) {
                 nearestPoint = q;
             }
         }
