@@ -69,8 +69,8 @@ public class PointSET {
         return nearestPoint;
     }
 
-    private void checkNull(Object o, String msg) {
-        if (o == null) {
+    private void checkNull(Object obj, String msg) {
+        if (obj == null) {
             throw new java.lang.IllegalArgumentException(msg);
         }
     }

@@ -146,18 +146,18 @@ public class KdTree {
         if (isEmpty()) {
             return null;
         } else {
-            Point2D closest = root.point;
+            this.closest = root.point;
             nearest(root, p);
             return closest;
         }
     }
 
     private void nearest(Node n, Point2D p) {
-        double currentDistance = closest.distanceSquaredTo(p);
+        double closestDistance = closest.distanceSquaredTo(p);
 
         // if inside node's rectangle or if rectangle is close to point
-        if (n != null && n.rect.distanceSquaredTo(p) < currentDistance) {
-            if (p.distanceSquaredTo(n.point) < currentDistance) {
+        if (n != null && n.rect.distanceSquaredTo(p) < closestDistance) {
+            if (p.distanceSquaredTo(n.point) < closestDistance) {
                 closest = n.point;
             }
             if (n.orientation == KdTree.X_DIR) {
@@ -183,8 +183,8 @@ public class KdTree {
         }
     }
 
-    private void checkNull(Object o, String msg) {
-        if (o == null) {
+    private void checkNull(Object obj, String msg) {
+        if (obj == null) {
             throw new java.lang.IllegalArgumentException(msg);
         }
     }
@@ -236,5 +236,9 @@ public class KdTree {
         // System.out.println("File not found");
         // }
         // points.draw();
+        KdTree tree = new KdTree();
+        tree.insert(new Point2D(0.5, 0.5));
+        tree.nearest(new Point2D(0.3, 0.3));
+        int x = 0;
     }
 }
