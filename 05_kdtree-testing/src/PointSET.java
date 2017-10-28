@@ -1,7 +1,8 @@
-import java.io.File;
-import java.io.FileNotFoundException;
+// import java.io.File;
+// import java.io.FileNotFoundException;
+// import java.util.Scanner;
+
 import java.util.LinkedList;
-import java.util.Scanner;
 import java.util.TreeSet;
 import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.RectHV;
@@ -77,7 +78,7 @@ public class PointSET {
     public static void main(String[] args) {
 //        PointSET points = new PointSET();
 //        try {
-//            File inputFile = new File("C:\\Users\\Dmitriy\\eclipse-workspace\\05_kdtree-testing\\src\\input100K.txt");
+//            File inputFile = new File("C:\\Users\\Dmitriy\\eclipse-workspace\\algs4\\05_kdtree-testing\\src\\input100K.txt");
 //            Scanner sc = new Scanner(inputFile);
 //            while (sc.hasNext()) {
 //                points.insert(new Point2D(Double.parseDouble(sc.next()), Double.parseDouble(sc.next())));
