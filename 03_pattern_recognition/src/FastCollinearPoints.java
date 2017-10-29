@@ -10,13 +10,13 @@ public class FastCollinearPoints {
         
         Point[] pointsCopy = new Point[n];
         System.arraycopy(points, 0, pointsCopy, 0, n);
-        checkDuplicates(pointsCopy); // points copy is now sorted
+        checkDuplicates(pointsCopy); // pointsCopy is now sorted
 
         numberOfSegments = 0;
         segments = new LineSegment[n];
 
         for (int i = 0; i < n; i++) {
-            /* Copy sorted points into new array except the "origin" point
+            /* Copy sorted points into new array, excluding the "origin" point
              * Will determine slope from the "origin" point to each of the points
              * Finally, will sort based on slope to "origin"
              */
@@ -30,6 +30,11 @@ public class FastCollinearPoints {
             for (int j = 1; j < n; j++) {
                 Point currentStartPoint = pointsToCompare[currentStartIndex];
                 Point currentPoint = pointsToCompare[j];
+                
+                /* if reached the end of the array, or if the beginning point and end point don't have the same slope
+                 * If they don't have the same slope, then 2nd to last point, i.e., currentPoint is the beginning of a new slope
+                 * Can do this because array sorted
+                 */
                 if (currentPoint == null || (currentStartPoint.slopeTo(origin) != currentPoint.slopeTo(origin)) ) {
                     int segmentLength = j - currentStartIndex + 1;
                     // check to make sure that the origin is indeed the starting point of the segment
@@ -76,7 +81,7 @@ public class FastCollinearPoints {
     }
     
     private void checkDuplicates(Point[] points) {
-        /* Sort points, to speed up duplicate checking process ( n^2 -> n )
+        /* Sort points, to speed up duplicate checking process ( n^2 -> n)
          * After items are sorted, duplicates are neighbors, so check neighbors        
          */
         Arrays.sort(points);
