@@ -76,7 +76,7 @@ public class FastCollinearPoints {
     }
     
     private void checkDuplicates(Point[] points) {
-        /* Sort points, to speed up duplicate checking process ( n^2 -> n*lg(n) )
+        /* Sort points, to speed up duplicate checking process ( n^2 -> n )
          * After items are sorted, duplicates are neighbors, so check neighbors        
          */
         Arrays.sort(points);
