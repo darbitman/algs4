@@ -1,18 +1,30 @@
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Digraph;
 import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.ST;
+import java.util.ArrayList;
 
 public class WordNet{
-    private Digraph graph;
+    private Digraph g;
+    
+    // maps IDs -> Nouns
+    private ST<Integer, String> synsetIDmap;
+    
+    //maps Nouns -> IDs
+    private ST<String, ArrayList<Integer>> synsetNounMap;
     
     // constructor takes the name of the two input files
     public WordNet(String synsets, String hypernyms) {
         if (synsets == null || hypernyms == null) {
             throw new java.lang.IllegalArgumentException("constructor argument null");
         }
-        graph = new Digraph(
         In synsetInput = new In(synsets);
         In hypernymInput = new In(hypernyms);
+        while(synsetInput.hasNextLine()) {
+            String[] tokens = synsetInput.readLine().split(",");
+            String[] nouns = tokens[1].split(" ");
+            
+        }
     }
 
     // returns all WordNet nouns
