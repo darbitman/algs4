@@ -11,7 +11,7 @@ public class WordNet{
     private ST<Integer, String> synsetIDmap;
     
     //maps Nouns -> IDs
-    private ST<String, ArrayList<Integer>> synsetNounMap;
+    private ST<String, Integer> synsetNounMap;
     
     // constructor takes the name of the two input files
     public WordNet(String synsets, String hypernyms) {
@@ -23,7 +23,11 @@ public class WordNet{
         while(synsetInput.hasNextLine()) {
             String[] tokens = synsetInput.readLine().split(",");
             String[] nouns = tokens[1].split(" ");
-            
+            int id = Integer.parseInt(tokens[0]);
+            synsetIDmap.put(id, tokens[1]);
+            for (String n : nouns) {
+                synsetNounMap.put(n, id);
+            }
         }
     }
 
