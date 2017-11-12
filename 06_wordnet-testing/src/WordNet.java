@@ -3,8 +3,13 @@ import edu.princeton.cs.algs4.Digraph;
 import edu.princeton.cs.algs4.StdIn;
 
 public class WordNet {
+    private Digraph graph;
+    
     // constructor takes the name of the two input files
     public WordNet(String synsets, String hypernyms) {
+        graph = new Digraph(
+        In synsetInput = new In(synsets);
+        In hypernymInput = new In(hypernyms);
     }
 
     // returns all WordNet nouns
