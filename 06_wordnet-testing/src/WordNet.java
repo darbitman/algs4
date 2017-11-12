@@ -3,7 +3,6 @@ import edu.princeton.cs.algs4.Digraph;
 import edu.princeton.cs.algs4.StdIn;
 
 public class WordNet {
-
     // constructor takes the name of the two input files
     public WordNet(String synsets, String hypernyms) {
     }
