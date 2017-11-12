@@ -2,11 +2,14 @@ import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Digraph;
 import edu.princeton.cs.algs4.StdIn;
 
-public class WordNet {
+public class WordNet{
     private Digraph graph;
     
     // constructor takes the name of the two input files
     public WordNet(String synsets, String hypernyms) {
+        if (synsets == null || hypernyms == null) {
+            throw new java.lang.IllegalArgumentException("constructor argument null");
+        }
         graph = new Digraph(
         In synsetInput = new In(synsets);
         In hypernymInput = new In(hypernyms);
