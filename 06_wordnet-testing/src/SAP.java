@@ -19,17 +19,29 @@ public class SAP {
         }
         return findSAP(v, w, "length");
     }
+
+    // a common ancestor of v and w that participates in a shortest ancestral path; -1 if no such path
+    public int ancestor(int v, int w) {
+        if (v < 0 || w < 0 || v > g.V() - 1 || w > g.V() - 1) {
+            throw new java.lang.IndexOutOfBoundsException("length() called with a vertex not in digraph");
+        }
+        return findSAP(v, w, "ancestor");
+    }
     
     private int findSAP(int v, int w, String flag) {
-        BreadthFirstDirectedPaths dist2w = new BreadthFirstDirectedPaths(g, w);
+        // BFS search from w to every other vertex
+        BreadthFirstDirectedPaths distFromW = new BreadthFirstDirectedPaths(g, w);
+        
         int graphLength = g.V();
-        int minLen = 1 << 31;
+        int minLen = Integer.MAX_VALUE;
         int minAncestor = -1;
         Boolean[] marked = new Boolean[graphLength];
         int[] distTo = new int[graphLength];
+        
+        // initialize arrays 
         for (int i = 0; i < graphLength; i++) {
             marked[i] = false;
-            distTo[i] = 1 << 31;
+            distTo[i] = Integer.MAX_VALUE;
         }
         Queue<Integer> qv = new Queue<Integer>();
         qv.enqueue(v);
@@ -38,17 +50,18 @@ public class SAP {
         while (!qv.isEmpty()) {
             int curr = qv.dequeue();
             
-            // quick test. if distance to ancestor from v is longer than minLen
+            // quick test. if distance to ancestor from current vertex is longer than minLen
             // then no need to find distance from w -> ancestor
             // because that adds to distTo[curr]
             if (minLen < distTo[curr]) {
                 break;
             }
             
-            if (dist2w.hasPathTo(curr) && (dist2w.distTo(curr) + distTo[curr] < minLen)) {
-                minLen = dist2w.distTo(curr) + distTo[curr];
+            if (distFromW.hasPathTo(curr) && (distFromW.distTo(curr) + distTo[curr] < minLen)) {
+                minLen = distFromW.distTo(curr) + distTo[curr];
                 minAncestor = curr;
             }
+            
             for (int next : g.adj(curr)) {
                 if (!marked[next]) {
                     distTo[next] = distTo[curr] + 1;
@@ -56,14 +69,16 @@ public class SAP {
                     qv.enqueue(next);
                 }
             }
-                
         }
-        return -1;
-    }
-
-    // a common ancestor of v and w that participates in a shortest ancestral path; -1 if no such path
-    public int ancestor(int v, int w) {
-        return 0;
+        if (flag.equals("length")) {
+            if (minLen < Integer.MAX_VALUE) {
+                return minLen;
+            }
+            else {
+                return -1;
+            }
+        }
+        return minAncestor;
     }
 
     // length of shortest ancestral path between any vertex in v and any vertex in w; -1 if no such path
