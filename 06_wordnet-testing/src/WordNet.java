@@ -78,6 +78,8 @@ public class WordNet{
         if (!isNoun(nounA) || !isNoun(nounB)) {
             throw new java.lang.IllegalArgumentException("a noun argument to distance() is not in WordNet");
         }
+        int idA = 
+        int ancestor = sap.ancestor(, w)
         return "";
     }
 

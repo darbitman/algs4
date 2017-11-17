@@ -154,7 +154,7 @@ public class SAP {
                 minAncestor = curr;
             }
             
-            for (int i: g.adj(curr) {
+            for (int i: g.adj(curr)) {
                 if (!marked[i]) {
                     qv.enqueue(i);
                     marked[i] = true;
