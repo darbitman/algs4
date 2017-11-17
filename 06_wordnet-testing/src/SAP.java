@@ -1,6 +1,6 @@
-import edu.princeton.cs.algs4.In;
+//import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Digraph;
-import edu.princeton.cs.algs4.StdIn;
+//import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.BreadthFirstDirectedPaths;
 import edu.princeton.cs.algs4.Queue;
 
@@ -35,12 +35,12 @@ public class SAP {
         int graphLength = g.V();
         int minLen = Integer.MAX_VALUE;
         int minAncestor = -1;
-        Boolean[] marked = new Boolean[graphLength];
+        boolean[] marked = new boolean[graphLength];
         int[] distTo = new int[graphLength];
         
         // initialize arrays 
         for (int i = 0; i < graphLength; i++) {
-            marked[i] = false;
+            marked[i] = true;
             distTo[i] = Integer.MAX_VALUE;
         }
         Queue<Integer> qv = new Queue<Integer>();
@@ -124,7 +124,7 @@ public class SAP {
         int graphLength = g.V();
         int minLen = Integer.MAX_VALUE;
         int minAncestor = -1;
-        Boolean[] marked = new Boolean[graphLength];
+        boolean[] marked = new boolean[graphLength];
         int[] distTo = new int[graphLength];
         
         // initialize arrays 

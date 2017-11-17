@@ -1,7 +1,5 @@
-
-
 public class Outcast {
-    private WordNet wn;
+    private  WordNet wn;
     
     
     // constructor takes a WordNet object
