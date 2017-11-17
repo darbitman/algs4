@@ -22,6 +22,9 @@ public class WordNet{
         In synsetInput = new In(synsets);
         In hypernymInput = new In(hypernyms);
         
+        synsetIDmap = new ST<Integer, String>();
+        synsetNounMap = new ST<String, Integer>();
+        
         // read in noun synset
         // generate Noun -> ID map
         // and      ID -> Noun map

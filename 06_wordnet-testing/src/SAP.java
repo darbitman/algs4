@@ -86,7 +86,7 @@ public class SAP {
         if (v == null || w == null) {
             throw new java.lang.IllegalArgumentException("vector argument to length() is null");
         }
-        for (int i : v) {
+        for (int i: v) {
             if (i < 0 || i > g.V()) {
                 throw new java.lang.IllegalArgumentException("some vertex in v vector, in length() doesn't exist in g");
             }
@@ -96,7 +96,7 @@ public class SAP {
                 throw new java.lang.IllegalArgumentException("some vertex in w vector, in length() doesn't exist in g");
             }
         }
-        return find_SAP(v, w, "length");
+        return findSAP(v, w, "length");
     }
 
     // a common ancestor that participates in shortest ancestral path; -1 if no such path
@@ -114,10 +114,10 @@ public class SAP {
                 throw new java.lang.IllegalArgumentException("some vertex in w vector, in length() doesn't exist in g");
             }
         }
-        return find_SAP(v, w, "ancestor");
+        return findSAP(v, w, "ancestor");
     }
 
-    private int find_SAP(Iterable<Integer> v, Iterable<Integer> w, String flag) {
+    private int findSAP(Iterable<Integer> v, Iterable<Integer> w, String flag) {
         // BFS search from w to every other vertex
         BreadthFirstDirectedPaths distFromW = new BreadthFirstDirectedPaths(g, w);
         
