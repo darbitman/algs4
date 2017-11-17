@@ -1,8 +1,8 @@
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Digraph;
-//import edu.princeton.cs.algs4.StdIn;
+// import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.ST;
-//import java.util.ArrayList;
+// import java.util.ArrayList;
 
 public class WordNet {
     private Digraph g;
