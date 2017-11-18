@@ -47,19 +47,18 @@ public class WordNet {
         
         Digraph g = new Digraph(synsetIDmap.size());
         while (hypernymInput.hasNextLine()) {
-            String[] tokens = synsetInput.readLine().split(",");
+            String[] tokens = hypernymInput.readLine().split(",");
             int tail = Integer.parseInt(tokens[0]);
             for (int i = 1; i < tokens.length; i++) {
                 g.addEdge(tail, Integer.parseInt(tokens[i]));
             }
         }
-        
         sap = new SAP(g);
     }
 
     // returns all WordNet nouns
     public Iterable<String> nouns() {
-        return synsetNounMap;
+        return synsetNounMap.keys();
     }
 
     // is the word a WordNet noun?
@@ -96,6 +95,6 @@ public class WordNet {
 
     // do unit testing of this class
     public static void main(String[] args) {
-        // empty test code
+        // test case code here
     }
  }
