@@ -2,17 +2,16 @@ import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Digraph;
 // import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.ST;
-// import java.util.ArrayList;
+import java.util.ArrayList;
 
 public class WordNet {
-    private Digraph g;
-    private SAP sap;
+    private final SAP sap;
     
     // maps IDs -> Nouns
-    private ST<Integer, String> synsetIDmap;
+    private final ST<Integer, String> synsetIDmap;
     
     // maps Nouns -> IDs
-    private ST<String, Integer> synsetNounMap;
+    private final ST<String, ArrayList<Integer>> synsetNounMap;
     
     // constructor takes the name of the two input files
     public WordNet(String synsets, String hypernyms) {
@@ -23,7 +22,7 @@ public class WordNet {
         In hypernymInput = new In(hypernyms);
         
         synsetIDmap = new ST<Integer, String>();
-        synsetNounMap = new ST<String, Integer>();
+        synsetNounMap = new ST<String, ArrayList<Integer>>();
         
         // read in noun synset
         // generate Noun -> ID map
@@ -34,13 +33,19 @@ public class WordNet {
             int id = Integer.parseInt(tokens[0]);
             synsetIDmap.put(id, tokens[1]);
             for (String n : nouns) {
-                if (!synsetNounMap.contains(n)) {
-                    synsetNounMap.put(n, id);
+                ArrayList<Integer> list;
+                if (synsetNounMap.contains(n)) {
+                    list = synsetNounMap.get(n);
                 }
+                else {
+                    list = new ArrayList<Integer>();
+                }
+                list.add(id);
+                synsetNounMap.put(n, list);
             }
         }
         
-        g = new Digraph(synsetIDmap.size());
+        Digraph g = new Digraph(synsetIDmap.size());
         while (hypernymInput.hasNextLine()) {
             String[] tokens = synsetInput.readLine().split(",");
             int tail = Integer.parseInt(tokens[0]);
@@ -70,8 +75,9 @@ public class WordNet {
         if (!isNoun(nounA) || !isNoun(nounB)) {
             throw new java.lang.IllegalArgumentException("a noun argument to distance() is not in WordNet");
         }
-        int idA = synsetNounMap.get(nounA);
-        int idB = synsetNounMap.get(nounB);
+        
+        ArrayList<Integer> idA = synsetNounMap.get(nounA);
+        ArrayList<Integer> idB = synsetNounMap.get(nounB);
         return sap.length(idA, idB);
     }
 
@@ -81,8 +87,8 @@ public class WordNet {
         if (!isNoun(nounA) || !isNoun(nounB)) {
             throw new java.lang.IllegalArgumentException("a noun argument to distance() is not in WordNet");
         }
-        int idA = synsetNounMap.get(nounA);
-        int idB = synsetNounMap.get(nounB);
+        ArrayList<Integer> idA = synsetNounMap.get(nounA);
+        ArrayList<Integer> idB = synsetNounMap.get(nounB);
         int ancestor = sap.ancestor(idA, idB);
         String nounAncestor = synsetIDmap.get(ancestor);
         return nounAncestor;
@@ -90,6 +96,6 @@ public class WordNet {
 
     // do unit testing of this class
     public static void main(String[] args) {
-        
+        // empty test code
     }
  }

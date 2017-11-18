@@ -1,5 +1,5 @@
 public class Outcast {
-    private  WordNet wn;
+    private final WordNet wn;
     
     
     // constructor takes a WordNet object
@@ -26,6 +26,6 @@ public class Outcast {
 
     // see test client below
     public static void main(String[] args) {
-        
+        // empty test code
    }
 }

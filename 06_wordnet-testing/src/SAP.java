@@ -1,11 +1,12 @@
-// import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Digraph;
-// import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.BreadthFirstDirectedPaths;
 import edu.princeton.cs.algs4.Queue;
 
-public class SAP {
-    private Digraph g;
+public final class SAP {
+    private final Digraph g;
 
     // constructor takes a digraph (not necessarily a DAG)
     public SAP(Digraph G) {
@@ -14,7 +15,7 @@ public class SAP {
 
     // length of shortest ancestral path between v and w; -1 if no such path
     public int length(int v, int w) {
-        if (v < 0 || w < 0 || v > g.V() - 1 || w > g.V() - 1) {
+        if (v < 0 || w < 0 || v > (g.V() - 1) || w > (g.V() - 1)) {
             throw new java.lang.IllegalArgumentException("length() called with a vertex not in digraph");
         }
         return findSAP(v, w, "length");
@@ -22,7 +23,7 @@ public class SAP {
 
     // a common ancestor of v and w that participates in a shortest ancestral path; -1 if no such path
     public int ancestor(int v, int w) {
-        if (v < 0 || w < 0 || v > g.V() - 1 || w > g.V() - 1) {
+        if (v < 0 || w < 0 || v > (g.V() - 1) || w > (g.V() - 1)) {
             throw new java.lang.IllegalArgumentException("length() called with a vertex not in digraph");
         }
         return findSAP(v, w, "ancestor");
@@ -40,7 +41,7 @@ public class SAP {
         
         // initialize arrays 
         for (int i = 0; i < graphLength; i++) {
-            marked[i] = true;
+            marked[i] = false;
             distTo[i] = Integer.MAX_VALUE;
         }
         Queue<Integer> qv = new Queue<Integer>();
@@ -86,13 +87,14 @@ public class SAP {
         if (v == null || w == null) {
             throw new java.lang.IllegalArgumentException("vector argument to length() is null");
         }
+        
         for (int i: v) {
-            if (i < 0 || i > g.V()) {
+            if (i < 0 || i > (g.V()-1)) {
                 throw new java.lang.IllegalArgumentException("some vertex in v vector, in length() doesn't exist in g");
             }
         }
         for (int i: w) {
-            if (i < 0 || i > g.V()) {
+            if (i < 0 || i > (g.V()-1)) {
                 throw new java.lang.IllegalArgumentException("some vertex in w vector, in length() doesn't exist in g");
             }
         }
@@ -105,12 +107,12 @@ public class SAP {
             throw new java.lang.IllegalArgumentException("vector argument to length() is null");
         }
         for (int i : v) {
-            if (i < 0 || i > g.V()) {
+            if (i < 0 || i > (g.V()-1)) {
                 throw new java.lang.IllegalArgumentException("some vertex in v vector, in length() doesn't exist in g");
             }
         }
         for (int i: w) {
-            if (i < 0 || i > g.V()) {
+            if (i < 0 || i > (g.V()-1)) {
                 throw new java.lang.IllegalArgumentException("some vertex in w vector, in length() doesn't exist in g");
             }
         }
@@ -176,5 +178,15 @@ public class SAP {
     
     // do unit testing of this class
     public static void main(String[] args) {
+        In in = new In(args[0]);
+        Digraph G = new Digraph(in);
+        SAP sap = new SAP(G);
+        while (!StdIn.isEmpty()) {
+            int v = StdIn.readInt();
+            int w = StdIn.readInt();
+            int length   = sap.length(v, w);
+            int ancestor = sap.ancestor(v, w);
+            StdOut.printf("length = %d, ancestor = %d\n", length, ancestor);
+        }
     }
  }
