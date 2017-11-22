@@ -29,6 +29,18 @@ public class SeamCarver {
         if (x < 0 || y < 0 || x > (width() - 1) || y > (height() - 1)) {
             throw new java.lang.IllegalArgumentException("x or y argument to energy() out of bounds");
         }
+        
+        // return 1000 for border pixels
+        if (x == 0 || y == 0 || x == (width() - 1) || y == (height() - 1)) {
+            return 1000.0;
+        }
+        else {
+            Color aboveC, belowC, leftC, rightC;
+            aboveC = p.get(x, y - 1);
+            belowC = p.get(x, y + 1);
+            leftC = p.get(x - 1, y);
+            rightC = p.get(x + 1, y);
+        }
         return 0.0;
     }
     
