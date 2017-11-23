@@ -11,7 +11,7 @@ public class SeamCarver {
     
     // current picture
     public Picture pictre() {
-        return null;
+        return p;
     }
     
     // width of current picture
@@ -40,8 +40,20 @@ public class SeamCarver {
             belowC = p.get(x, y + 1);
             leftC = p.get(x - 1, y);
             rightC = p.get(x + 1, y);
+            
+            double rX = (double)(rightC.getRed() - leftC.getRed());
+            double gX = (double)(rightC.getGreen() - leftC.getGreen());
+            double bX = (double)(rightC.getBlue() - leftC.getBlue());
+            
+            double rY = (double)(belowC.getRed() - aboveC.getRed());
+            double gY = (double)(belowC.getGreen() - aboveC.getGreen());
+            double bY = (double)(belowC.getBlue() - belowC.getBlue());
+            
+            double deltaXsquared = Math.pow(rX, 2.0) + Math.pow(gX, 2.0) + Math.pow(bX, 2.0);
+            double deltaYsquared = Math.pow(rY, 2.0) + Math.pow(gY, 2.0) + Math.pow(bY, 2.0);
+            
+            return Math.sqrt(deltaXsquared + deltaYsquared);
         }
-        return 0.0;
     }
     
     // sequence of indices for horizontal seam
@@ -60,5 +72,8 @@ public class SeamCarver {
     
     // remove vertical seam from current picture
     public void removeVerticalSeam(int[] seam) {
+    }
+    
+    public static void main(String[] args) {
     }
 }
