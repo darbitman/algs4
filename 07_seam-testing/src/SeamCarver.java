@@ -3,25 +3,29 @@ import java.awt.Color;
 
 public class SeamCarver {
     private Picture p;
+    private static final double MARGIN_ENERGY = 1000.0;
+    private int height, width;
     
     // create a seam carver object based on the given picture
     public SeamCarver(Picture picture) {
-        p = picture;
+        p = new Picture(picture);
+        this.height = this.p.height();
+        this.width = this.p.width();
     }
     
     // current picture
-    public Picture pictre() {
-        return p;
+    public Picture picture() {
+        return new Picture(this.p);
     }
     
     // width of current picture
     public int width() {
-        return p.width();
+        return this.width;
     }
     
     // height of current picture
     public int height() {
-        return p.height();
+        return this.height;
     }
     
     // energy of pixel at column x and row y
@@ -32,7 +36,7 @@ public class SeamCarver {
         
         // return 1000 for border pixels
         if (x == 0 || y == 0 || x == (width() - 1) || y == (height() - 1)) {
-            return 1000.0;
+            return MARGIN_ENERGY;
         }
         else {
             Color aboveC, belowC, leftC, rightC;
@@ -40,20 +44,14 @@ public class SeamCarver {
             belowC = p.get(x, y + 1);
             leftC = p.get(x - 1, y);
             rightC = p.get(x + 1, y);
+            double deltaSquareX = Math.pow(rightC.getRed() - leftC.getRed(), 2)
+                    + Math.pow(rightC.getGreen() - leftC.getGreen(), 2)
+                    + Math.pow(rightC.getBlue() - leftC.getBlue(), 2);
             
-            double rX = (double)(rightC.getRed() - leftC.getRed());
-            double gX = (double)(rightC.getGreen() - leftC.getGreen());
-            double bX = (double)(rightC.getBlue() - leftC.getBlue());
-            
-            double rY = (double)(belowC.getRed() - aboveC.getRed());
-            double gY = (double)(belowC.getGreen() - aboveC.getGreen());
-            double bY = (double)(belowC.getBlue() - belowC.getBlue());
-            
-            double deltaXsquared = Math.pow(rX, 2.0) + Math.pow(gX, 2.0) + Math.pow(bX, 2.0);
-            double deltaYsquared = Math.pow(rY, 2.0) + Math.pow(gY, 2.0) + Math.pow(bY, 2.0);
-            
-            return Math.sqrt(deltaXsquared + deltaYsquared);
+            double deltaSquareY = Math.pow(belowC, b)
         }
+        
+        return 0.0;
     }
     
     // sequence of indices for horizontal seam
@@ -72,8 +70,5 @@ public class SeamCarver {
     
     // remove vertical seam from current picture
     public void removeVerticalSeam(int[] seam) {
-    }
-    
-    public static void main(String[] args) {
     }
 }
