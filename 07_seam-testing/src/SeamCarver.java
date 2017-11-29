@@ -5,15 +5,27 @@ public class SeamCarver {
     private Picture p;
     private static final double MARGIN_ENERGY = 1000.0;
     private int height, width;
+    // store RGB for each pixel
+    private int[][] pixels;
     
     // create a seam carver object based on the given picture
     public SeamCarver(Picture picture) {
         p = new Picture(picture);
         this.height = this.p.height();
         this.width = this.p.width();
+        this.pixels = new int[this.width][this.height];
+        
+        
+        // populate pixel data
+        for (int i = 0; i < this.width; i++) {
+            for (int j = 0; j < this.height; j++) {
+                pixels[i][j] = this.p.getRGB(i, j);
+            }
+        }
+                
     }
     
-    // current picture
+    // return current picture
     public Picture picture() {
         return new Picture(this.p);
     }
@@ -48,10 +60,12 @@ public class SeamCarver {
                     + Math.pow(rightC.getGreen() - leftC.getGreen(), 2)
                     + Math.pow(rightC.getBlue() - leftC.getBlue(), 2);
             
-            double deltaSquareY = Math.pow(belowC, b)
+            double deltaSquareY = Math.pow(belowC.getRed() - aboveC.getRed(), 2)
+                    + Math.pow(belowC.getGreen() - aboveC.getGreen(), 2)
+                    + Math.pow(belowC.getGreen() - aboveC.getGreen(), 2);
+            
+            return Math.sqrt(deltaSquareY + deltaSquareX);
         }
-        
-        return 0.0;
     }
     
     // sequence of indices for horizontal seam
@@ -70,5 +84,9 @@ public class SeamCarver {
     
     // remove vertical seam from current picture
     public void removeVerticalSeam(int[] seam) {
+        
+    }
+    
+    public static void main(String[] args) {
     }
 }
