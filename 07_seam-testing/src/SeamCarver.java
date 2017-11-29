@@ -5,8 +5,9 @@ public class SeamCarver {
     private Picture p;
     private static final double MARGIN_ENERGY = 1000.0;
     private int height, width;
-    // store RGB for each pixel
-    private int[][] pixels;
+    private Picture currentPicture;  // Current picture
+    private int[][] pixels;  // store RGB for each pixel
+    
     
     // create a seam carver object based on the given picture
     public SeamCarver(Picture picture) {
@@ -27,7 +28,17 @@ public class SeamCarver {
     
     // return current picture
     public Picture picture() {
-        return new Picture(this.p);
+        Color c;
+        currentPicture = new Picture(this.width, this.height);
+        
+        // generate new picture using current pixel data
+        for (int i = 0; i < this.width; i++) {
+            for (int j = 0; j < this.height; j++) {
+                c = new Color(pixels[i][j]);
+                currentPicture.set(i, j, c);
+            }
+        }
+        return currentPicture;
     }
     
     // width of current picture
@@ -70,6 +81,25 @@ public class SeamCarver {
     
     // sequence of indices for horizontal seam
     public int[] findHorizontalSeam() {
+        int[] seam = new int[this.width];  // contains indices for a horizontal seam
+        int[][] path = new int[this.width][this.height];
+        double minTotalEnergy;
+        
+        // if only single line of pixels
+        if () {
+        }
+        // otherwise find seam
+        else {
+            // initialize path
+            for (int i = 0; i < this.width; i++) {
+                path[i][0] = 0;  // top row
+                path[i][this.height - 1] = 0;  // bottom row
+            }
+            for (int j = 0; j < this.height; j++) {
+                path[0][j] = 0;  // left column (beginning)
+                
+        }
+        
         return null;
     }
     
@@ -80,6 +110,7 @@ public class SeamCarver {
     
     // remove horizontal seam from current picture
     public void removeHorizontalSeam(int[] seam) {
+        
     }
     
     // remove vertical seam from current picture
