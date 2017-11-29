@@ -81,25 +81,6 @@ public class SeamCarver {
     
     // sequence of indices for horizontal seam
     public int[] findHorizontalSeam() {
-        int[] seam = new int[this.width];  // contains indices for a horizontal seam
-        int[][] path = new int[this.width][this.height];
-        double minTotalEnergy;
-        
-        // if only single line of pixels
-        if () {
-        }
-        // otherwise find seam
-        else {
-            // initialize path
-            for (int i = 0; i < this.width; i++) {
-                path[i][0] = 0;  // top row
-                path[i][this.height - 1] = 0;  // bottom row
-            }
-            for (int j = 0; j < this.height; j++) {
-                path[0][j] = 0;  // left column (beginning)
-                
-        }
-        
         return null;
     }
     
