@@ -86,11 +86,37 @@ public class SeamCarver {
     
     // sequence of indices for vertical seam
     public int[] findVerticalSeam() {
-        int[][] path = new int[this.width][this.height];  // contains flags for shortest path
-        int[] minPath = new int[this.width];  // contains the array indices of the shortest path
-        int[][] totalEnergy = new int[2][this.height];  // keep only the current column and next column data in alternating fashion
-        double minTotalEnergy;
-
+        // stores accumulated energies up to current pixel (including current pixel)
+        double[][] totalEnergyTo = new double[this.width][this.height];
+        
+        int[][] pixelTo = new int[this.width][this.height];  // stores location of previous pixel
+        
+        
+        // initialize first column
+        for (int j = 0; j < this.height; j++) {
+            totalEnergyTo[0][j] = energy(0, j);
+        }
+        
+        // find the shortest path from one of the three parents
+        for (int i = 1; i < this.width; i++) {
+            for (int j = 1; j < this.height; j++) {
+                currentEnergy = energy(i, j);
+                if (totalEnergyTo[i - 1][j - 1] <= totalEnergyTo[i - 1][j] && 
+                        totalEnergyTo[i - 1][j - 1] <= totalEnergyTo[i - 1][j + 1]) {
+                    totalEnergyTo[i][j] = totalEnergyTo[i - 1][j - 1] + energy(i, j);
+                    pixelTo[i][j] = j - 1;
+                }
+                else if (totalEnergyTo[i - 1][j] <= totalEnergyTo[i - 1][j - 1] &&
+                        totalEnergyTo[i - 1][j] <= totalEnergyTo[i - 1][j + 1]) {
+                    totalEnergyTo[i][j] = totalEnergyTo[i - 1][j] + energy(i, j);
+                    pixelTo[i][j] = j;
+                }
+                else {
+                    totalEnergyTo[i][j] = totalEnergyTo[i - 1][j] + energy(i, j);
+                    pixelTo[i][j] = j + 1;
+                }
+            }
+        }
         
         return null;
     }
