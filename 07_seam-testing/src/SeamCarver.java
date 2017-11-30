@@ -90,29 +90,7 @@ public class SeamCarver {
         int[] minPath = new int[this.width];  // contains the array indices of the shortest path
         int[][] totalEnergy = new int[2][this.height];  // keep only the current column and next column data in alternating fashion
         double minTotalEnergy;
-        
-        if (this.width <= 1 || this.height <= 1) {
-        }
-        else {
-            int dummy = 0;
-            
-            // calculate first column energy
-            for (int j = 0; j < this.height; j++) {
-                path[0][j] = -1;
-                totalEnergy[dummy][j] = calculateEnergy(dummy, j);  // calculate energy up til the column
-                totalEnergy[1 - dummy][j] = totalEnergy[dummy][j];  // keep total energy (alternating fashion)
-            }
-            
-            for (int i = 1; i < this.width; i++) {
-                
-                for (int j = 1; j < this.height; j++) {
-                    if (totalEnergy[dummy][j - 1] <= totalEnergy[dummy][j]) {
-                        if (totalEnergy[dummy][j - 1] <= totalEnergy[dummy][j + 1] {
-                            totalEnergy[1 - dummy][j] = totalEnergy[dummy][j - 1] + calculateEnergy(i, j);
-                }
-            }
-            
-        }
+
         
         return null;
     }
