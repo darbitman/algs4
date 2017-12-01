@@ -123,7 +123,7 @@ public class SeamCarver {
                 
                 // parent to the left/below
                 else {
-                    totalEnergyTo[i][j] = totalEnergyTo[i - 1][j] + energy(i, j);
+                    totalEnergyTo[i][j] = totalEnergyTo[i - 1][j + 1] + energy(i, j);
                     pixelTo[i][j] = j + 1;
                 }
             }
@@ -178,20 +178,42 @@ public class SeamCarver {
                 if (totalEnergyTo[i - 1][j - 1] <= totalEnergyTo[i][j - 1] &&
                         totalEnergyTo[i - 1][j - 1] <= totalEnergyTo[i + 1][j - 1]) {
                     
-                    totalEnergyTo[i][j] = totalEnergyTo[i - 1][j] + energy(i, j);
+                    totalEnergyTo[i][j] = totalEnergyTo[i - 1][j - 1] + energy(i, j);
                     pixelTo[i][j] = i - 1;
                 }
                 
                 // parent directly above
-                if (totalEnergyTo[i][j - 1] <= totalEnergyTo[i - 1][j - 1] && 
+                else if (totalEnergyTo[i][j - 1] <= totalEnergyTo[i - 1][j - 1] && 
                         totalEnergyTo[i][j - 1] <= totalEnergyTo[i + 1][j - 1]) {
                     
                     totalEnergyTo[i][j] = totalEnergyTo[i][j - 1] + energy(i, j);
+                    pixelTo[i][j] = i;
                 }
                 
                 // parent to the right/above
+                else {
+                    totalEnergyTo[i][j] = totalEnergyTo[i + 1][j - 1] + energy(i, j);
+                    pixelTo[i][j] = i + 1;
+                }
+            }
+        }
         
-        return null;
+        // find minimum total energy endpoint
+        double minTotalEnergy = totalEnergyTo[0][this.height - 1];
+        int minFinal = 0;
+        for (int i = 0; i < this.width; i++) {
+            if (totalEnergyTo[i][this.height - 1] < minTotalEnergy) {
+                minTotalEnergy = totalEnergyTo[i][this.width - 1];
+                minFinal = i;
+            }
+        }
+        
+        // trace path backwards
+        minPath[this.height - 1] = minFinal;
+        for (int j = this.height - 2; j >= 0; j++) {
+            minPath[j] = pixelTo[j][minPath[j + 1]];
+        }
+        return minPath;
     }
     
     // remove horizontal seam from current picture
