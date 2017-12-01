@@ -81,42 +81,115 @@ public class SeamCarver {
     
     // sequence of indices for horizontal seam
     public int[] findHorizontalSeam() {
-        return null;
-    }
-    
-    // sequence of indices for vertical seam
-    public int[] findVerticalSeam() {
-        // stores accumulated energies up to current pixel (including current pixel)
-        double[][] totalEnergyTo = new double[this.width][this.height];
+        if (this.height <= 1) {
+            throw new java.lang.Error("No horizontal seams left to remove");
+        }
         
         int[][] pixelTo = new int[this.width][this.height];  // stores location of previous pixel
-        
+        int[] minPath = new int[this.width];
+        double[][] totalEnergyTo = new double[this.width][this.height];  // stores accumulated energies up to current pixel (including current pixel)
         
         // initialize first column
         for (int j = 0; j < this.height; j++) {
             totalEnergyTo[0][j] = energy(0, j);
+            pixelTo[0][j] = -1;
         }
         
         // find the shortest path from one of the three parents
         for (int i = 1; i < this.width; i++) {
+            // margin energies accumulate
+            totalEnergyTo[i][0] = totalEnergyTo[i - 1][0] + energy(i, 0);
+            totalEnergyTo[i][this.height - 1] = totalEnergyTo[i - 1][this.height - 1] + energy(i, this.height - 1);
+            pixelTo[i][0] = 0;
+            pixelTo[i][this.height - 1] = 0;
+            
+            // search for path
             for (int j = 1; j < this.height; j++) {
-                currentEnergy = energy(i, j);
+                // parent to the left/above
                 if (totalEnergyTo[i - 1][j - 1] <= totalEnergyTo[i - 1][j] && 
                         totalEnergyTo[i - 1][j - 1] <= totalEnergyTo[i - 1][j + 1]) {
+                    
                     totalEnergyTo[i][j] = totalEnergyTo[i - 1][j - 1] + energy(i, j);
                     pixelTo[i][j] = j - 1;
                 }
+                
+                // parent directly to the left
                 else if (totalEnergyTo[i - 1][j] <= totalEnergyTo[i - 1][j - 1] &&
                         totalEnergyTo[i - 1][j] <= totalEnergyTo[i - 1][j + 1]) {
+                    
                     totalEnergyTo[i][j] = totalEnergyTo[i - 1][j] + energy(i, j);
                     pixelTo[i][j] = j;
                 }
+                
+                // parent to the left/below
                 else {
                     totalEnergyTo[i][j] = totalEnergyTo[i - 1][j] + energy(i, j);
                     pixelTo[i][j] = j + 1;
                 }
             }
         }
+        
+        
+        // Find minimum total energy endpoint
+        double minTotalEnergy = totalEnergyTo[this.width - 1][0];
+        int minFinal = 0;
+        for (int j = 0; j < this.height; j++) {
+            if (totalEnergyTo[this.width - 1][j] < minTotalEnergy) {
+                minTotalEnergy = totalEnergyTo[this.width - 1][j];
+                minFinal = j;
+            }
+        }
+        
+        // trace path backwards
+        minPath[this.width - 1] = minFinal;
+        for (int i = this.width - 2; i >= 0; i--) {
+            minPath[i] = pixelTo[i][minPath[i + 1]];
+        }
+        return minPath;
+    }
+    
+    // sequence of indices for vertical seam
+    public int[] findVerticalSeam() {
+        if (this.width <= 1) {
+            throw new java.lang.Error("No vertical seams left");
+        }
+        
+        int[][] pixelTo = new int[this.width][this.height];  // stores location of previous pixel
+        double[][] totalEnergyTo = new double[this.width][this.height];  // stores accumulated energies up to current pixel (including current pixel)
+        int[] minPath = new int[this.height];  // stores pixels that form the vertical seam
+        
+        // initialize first row
+        for (int i = 0; i < this.width; i++) {
+            totalEnergyTo[i][0] = energy(i, 0);
+            pixelTo[i][0] = -1;
+        }
+        
+        // find the shortest path from one of the three parents
+        for (int j = 1; j < this.height; j++) {
+            // margin energies accumulate
+            totalEnergyTo[0][j] = totalEnergyTo[0][j - 1] + energy(0, j);
+            totalEnergyTo[this.width - 1][j] = totalEnergyTo[this.width - 1][j - 1] + energy(this.width - 1, j);
+            pixelTo[0][j] = 0;
+            pixelTo[this.width - 1][j] = 0;
+            
+            // search for path
+            for (int i = 0; i < this.width; i++) {
+                // parent to the left/above
+                if (totalEnergyTo[i - 1][j - 1] <= totalEnergyTo[i][j - 1] &&
+                        totalEnergyTo[i - 1][j - 1] <= totalEnergyTo[i + 1][j - 1]) {
+                    
+                    totalEnergyTo[i][j] = totalEnergyTo[i - 1][j] + energy(i, j);
+                    pixelTo[i][j] = i - 1;
+                }
+                
+                // parent directly above
+                if (totalEnergyTo[i][j - 1] <= totalEnergyTo[i - 1][j - 1] && 
+                        totalEnergyTo[i][j - 1] <= totalEnergyTo[i + 1][j - 1]) {
+                    
+                    totalEnergyTo[i][j] = totalEnergyTo[i][j - 1] + energy(i, j);
+                }
+                
+                // parent to the right/above
         
         return null;
     }
