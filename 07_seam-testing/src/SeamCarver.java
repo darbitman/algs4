@@ -218,7 +218,29 @@ public class SeamCarver {
     
     // remove horizontal seam from current picture
     public void removeHorizontalSeam(int[] seam) {
-        
+        // error checking
+        if (seam == null) {
+            throw new java.lang.NullPointerException("removeHorizontalSeam() seam argument null");
+        }
+        if (this.height <= 1 || seam.length != this.width) {
+            throw new java.lang.IllegalArgumentException("invalid seam to removeHorizontalSeam()");
+        }
+        if (seam[0] < 0 || seam[0] >= this.height) {
+            throw new java.lang.IllegalArgumentException("first entry in seam is incorrect removeHorizontalSeam()");
+        }
+        for (int i = 1; i < seam.length; i++) {
+            if (seam[i] < 0 || seam[i] >= this.height || seam[i] - seam[i - 1] > 1 || seam[i] - seam[i - 1] < -1) {
+                throw new java.lang.IllegalArgumentException("wrong entry in seam removeHorizontalSeam()");
+            }
+        }
+        s
+        // to remove horizontal seam, just overwrite horizontal seam with pixels from above and height--
+        for (int i = 0; i < this.width; i++) {
+            for (int j = seam[i]; i < this.height - 1; j++) {
+                pixels[i][j] = pixels[i][j + 1];
+            }
+        }
+        this.height--;
     }
     
     // remove vertical seam from current picture
