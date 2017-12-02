@@ -2,10 +2,9 @@ import edu.princeton.cs.algs4.Picture;
 import java.awt.Color;
 
 public class SeamCarver {
-    private Picture p;
     private static final double MARGIN_ENERGY = 1000.0;
+    private final Picture p;
     private int height, width;
-    private Picture currentPicture;  // Current picture
     private int[][] pixels;  // store RGB for each pixel
     
     
@@ -23,13 +22,12 @@ public class SeamCarver {
                 pixels[i][j] = this.p.getRGB(i, j);
             }
         }
-                
     }
     
     // return current picture
     public Picture picture() {
         Color c;
-        currentPicture = new Picture(this.width, this.height);
+        Picture currentPicture = new Picture(this.width, this.height);
         
         // generate new picture using current pixel data
         for (int i = 0; i < this.width; i++) {
@@ -73,7 +71,7 @@ public class SeamCarver {
             
             double deltaSquareY = Math.pow(belowC.getRed() - aboveC.getRed(), 2)
                     + Math.pow(belowC.getGreen() - aboveC.getGreen(), 2)
-                    + Math.pow(belowC.getGreen() - aboveC.getGreen(), 2);
+                    + Math.pow(belowC.getBlue() - aboveC.getBlue(), 2);
             
             return Math.sqrt(deltaSquareY + deltaSquareX);
         }
@@ -104,7 +102,7 @@ public class SeamCarver {
             pixelTo[i][this.height - 1] = 0;
             
             // search for path
-            for (int j = 1; j < this.height; j++) {
+            for (int j = 1; j < this.height - 1; j++) {
                 // parent to the left/above
                 if (totalEnergyTo[i - 1][j - 1] <= totalEnergyTo[i - 1][j] && 
                         totalEnergyTo[i - 1][j - 1] <= totalEnergyTo[i - 1][j + 1]) {
@@ -173,7 +171,7 @@ public class SeamCarver {
             pixelTo[this.width - 1][j] = 0;
             
             // search for path
-            for (int i = 0; i < this.width; i++) {
+            for (int i = 1; i < this.width - 1; i++) {
                 // parent to the left/above
                 if (totalEnergyTo[i - 1][j - 1] <= totalEnergyTo[i][j - 1] &&
                         totalEnergyTo[i - 1][j - 1] <= totalEnergyTo[i + 1][j - 1]) {
@@ -203,15 +201,15 @@ public class SeamCarver {
         int minFinal = 0;
         for (int i = 0; i < this.width; i++) {
             if (totalEnergyTo[i][this.height - 1] < minTotalEnergy) {
-                minTotalEnergy = totalEnergyTo[i][this.width - 1];
+                minTotalEnergy = totalEnergyTo[i][this.height - 1];
                 minFinal = i;
             }
         }
         
         // trace path backwards
         minPath[this.height - 1] = minFinal;
-        for (int j = this.height - 2; j >= 0; j++) {
-            minPath[j] = pixelTo[j][minPath[j + 1]];
+        for (int j = this.height - 2; j >= 0; j--) {
+            minPath[j] = pixelTo[j][minPath[j + 1]];s
         }
         return minPath;
     }
@@ -233,8 +231,8 @@ public class SeamCarver {
                 throw new java.lang.IllegalArgumentException("wrong entry in seam removeHorizontalSeam()");
             }
         }
-        s
-        // to remove horizontal seam, just overwrite horizontal seam with pixels from above and height--
+        
+        // to remove horizontal seam, just overwrite horizontal seam with pixel to the left of the pixel to remove and height--
         for (int i = 0; i < this.width; i++) {
             for (int j = seam[i]; i < this.height - 1; j++) {
                 pixels[i][j] = pixels[i][j + 1];
@@ -245,9 +243,36 @@ public class SeamCarver {
     
     // remove vertical seam from current picture
     public void removeVerticalSeam(int[] seam) {
+        // error checking
+        if (seam == null) {
+            throw new java.lang.NullPointerException("removeVerticalSeam() seam argument null");
+        }
+        if (this.height <= 1 || seam.length != this.height) {
+            throw new java.lang.IllegalArgumentException("invalid seam to removeVerticalSeam()");
+        }
+        if (seam[0] < 0 || seam[0] >= this.width) {
+            throw new java.lang.IllegalArgumentException("first entry in seam is incorrect removeVerticalSeam()");
+        }
+        for (int j = 1; j < seam.length; j++) {
+            if (seam[j] < 0 || seam[j] >= this.width || seam[j] - seam[j - 1] > 1 || seam[j] - seam[j - 1] < -1) {
+                throw new java.lang.IllegalArgumentException("wrong entry in seam removeVerticalSeam()");
+            }
+        }
         
+        // to remove vertical seam, just overwrite vertical seam with pixel from above the pixel to remove and height--
+        for (int j = 0; j < this.height; j++) {
+            for (int i = seam[j]; i < this.width - 1; i++) {
+                pixels[i][j] = pixels[i + 1][j];
+            }
+        }
+        this.width--;
     }
     
     public static void main(String[] args) {
+        // test code
+        Picture testPicture = new Picture(args[1]);
+        SeamCarver sc = new SeamCarver(testPicture);
+//        System.out.print(sc.energy(0, 0));
+        sc.findVerticalSeam();
     }
 }
