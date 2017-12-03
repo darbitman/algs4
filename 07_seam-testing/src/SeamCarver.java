@@ -222,7 +222,7 @@ public class SeamCarver {
     public void removeHorizontalSeam(int[] seam) {
         // error checking
         if (seam == null) {
-            throw new java.lang.NullPointerException("removeHorizontalSeam() seam argument null");
+            throw new java.lang.IllegalArgumentException("removeHorizontalSeam() seam argument null");
         }
         if (this.height <= 1 || seam.length != this.width) {
             throw new java.lang.IllegalArgumentException("invalid seam to removeHorizontalSeam()");
@@ -238,7 +238,7 @@ public class SeamCarver {
         
         // to remove horizontal seam, just overwrite horizontal seam with pixel to the left of the pixel to remove and height--
         for (int i = 0; i < this.width; i++) {
-            for (int j = seam[i]; i < this.height - 1; j++) {
+            for (int j = seam[i]; j < this.height - 1; j++) {
                 pixels[i][j] = pixels[i][j + 1];
             }
         }
@@ -249,7 +249,7 @@ public class SeamCarver {
     public void removeVerticalSeam(int[] seam) {
         // error checking
         if (seam == null) {
-            throw new java.lang.NullPointerException("removeVerticalSeam() seam argument null");
+            throw new java.lang.IllegalArgumentException("removeVerticalSeam() seam argument null");
         }
         if (this.height <= 1 || seam.length != this.height) {
             throw new java.lang.IllegalArgumentException("invalid seam to removeVerticalSeam()");
@@ -277,6 +277,8 @@ public class SeamCarver {
         Picture testPicture = new Picture(args[1]);
         SeamCarver sc = new SeamCarver(testPicture);
 //        System.out.print(sc.energy(0, 0));
-        sc.findVerticalSeam();
+        int[] x = sc.findHorizontalSeam();
+        sc.removeHorizontalSeam(x);
+        
     }
 }
