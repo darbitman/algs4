@@ -79,7 +79,7 @@ public class SeamCarver {
     
     // sequence of indices for horizontal seam
     public int[] findHorizontalSeam() {
-        if (this.height <= 1) {
+        if (this.height < 1) {
             throw new java.lang.Error("No horizontal seams left to remove");
         }
         
@@ -150,7 +150,7 @@ public class SeamCarver {
     
     // sequence of indices for vertical seam
     public int[] findVerticalSeam() {
-        if (this.width <= 1) {
+        if (this.width < 1) {
             throw new java.lang.Error("No vertical seams left");
         }
         
@@ -224,8 +224,8 @@ public class SeamCarver {
         if (seam == null) {
             throw new java.lang.IllegalArgumentException("removeHorizontalSeam() seam argument null");
         }
-        if (this.height <= 1 || seam.length != this.width) {
-            throw new java.lang.IllegalArgumentException("invalid seam to removeHorizontalSeam()");
+        if (seam.length != this.width) {
+            throw new java.lang.IllegalArgumentException("invalid seam length to removeHorizontalSeam()");
         }
         if (seam[0] < 0 || seam[0] >= this.height) {
             throw new java.lang.IllegalArgumentException("first entry in seam is incorrect removeHorizontalSeam()");
@@ -251,8 +251,8 @@ public class SeamCarver {
         if (seam == null) {
             throw new java.lang.IllegalArgumentException("removeVerticalSeam() seam argument null");
         }
-        if (this.height <= 1 || seam.length != this.height) {
-            throw new java.lang.IllegalArgumentException("invalid seam to removeVerticalSeam()");
+        if (seam.length != this.height) {
+            throw new java.lang.IllegalArgumentException("invalid seam length to removeVerticalSeam()");
         }
         if (seam[0] < 0 || seam[0] >= this.width) {
             throw new java.lang.IllegalArgumentException("first entry in seam is incorrect removeVerticalSeam()");
