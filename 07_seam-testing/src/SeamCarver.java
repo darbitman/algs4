@@ -10,6 +10,10 @@ public class SeamCarver {
     
     // create a seam carver object based on the given picture
     public SeamCarver(Picture picture) {
+        if (picture == null) {
+            throw new java.lang.IllegalArgumentException("constructor argument is null");
+        }
+        
         p = new Picture(picture);
         this.height = this.p.height();
         this.width = this.p.width();
