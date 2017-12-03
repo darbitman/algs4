@@ -129,19 +129,21 @@ public class SeamCarver {
         
         
         // Find minimum total energy endpoint
-        double minTotalEnergy = totalEnergyTo[this.width - 1][0];
-        int minFinal = 0;
+        double minTotalEnergy = totalEnergyTo[this.width - 1][0];  // initialize total energy to the top-right corner of picture (will find smaller pixel if one exists)
+        int minFinal = 0;  // initialize pixel in the final column to remove (will find smaller pixel if one exists)
         for (int j = 0; j < this.height; j++) {
             if (totalEnergyTo[this.width - 1][j] < minTotalEnergy) {
-                minTotalEnergy = totalEnergyTo[this.width - 1][j];
-                minFinal = j;
+                minTotalEnergy = totalEnergyTo[this.width - 1][j];  // found smallest energy
+                minFinal = j;  // found vertical location of pixel to remove in last row
             }
         }
         
         // trace path backwards
         minPath[this.width - 1] = minFinal;
+        int j;
         for (int i = this.width - 2; i >= 0; i--) {
-            minPath[i] = pixelTo[i][minPath[i + 1]];
+            j = minPath[i + 1];  // vertical location (j) of pixel to remove at horizontal location (i)
+            minPath[i] = pixelTo[i + 1][j];  // the location of the pixel that leads to the next pixel
         }
         return minPath;
     }
@@ -197,19 +199,21 @@ public class SeamCarver {
         }
         
         // find minimum total energy endpoint
-        double minTotalEnergy = totalEnergyTo[0][this.height - 1];
-        int minFinal = 0;
+        double minTotalEnergy = totalEnergyTo[0][this.height - 1];  // initialize total energy to the bottom-lefthand corner of picture (will find smaller pixel if one exists)
+        int minFinal = 0;  // initialize pixel in the bottom row to remove (will find smaller pixel if one exists)
         for (int i = 0; i < this.width; i++) {
             if (totalEnergyTo[i][this.height - 1] < minTotalEnergy) {
-                minTotalEnergy = totalEnergyTo[i][this.height - 1];
-                minFinal = i;
+                minTotalEnergy = totalEnergyTo[i][this.height - 1];  // found smallest energy
+                minFinal = i;  // found horizontal location of pixel to remove
             }
         }
         
         // trace path backwards
         minPath[this.height - 1] = minFinal;
+        int i;
         for (int j = this.height - 2; j >= 0; j--) {
-            minPath[j] = pixelTo[j][minPath[j + 1]];s
+            i = minPath[j + 1];  // horizontal location (i) of pixel to remove at vertical location (j)
+            minPath[j] = pixelTo[i][j + 1];  // the location of the pixel that leads to the next pixel
         }
         return minPath;
     }
