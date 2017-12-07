@@ -9,6 +9,8 @@ public class BaseballElimination {
 	// create a baseball division from given filename in format specified below
 	public BaseballElimination(String filename) {
 		In input = new In(filename);
+		String inN = input.readLine();
+		int n = Integer.parseInt(inN);
 		String in = new String();
 		while (input.hasNextLine()) {
 			in = input.readLine();
