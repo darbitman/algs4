@@ -1,8 +1,18 @@
-public class BaseballElimination {
+import edu.princeton.cs.algs4.In;
 
+public class BaseballElimination {
+/*	private final int w[];  // number of wins for team i
+	private final int l[];  // number of losses for team i
+	private final int r[];
+	private final int g[][];*/
+	
 	// create a baseball division from given filename in format specified below
 	public BaseballElimination(String filename) {
-		// do something
+		In input = new In(filename);
+		String in = new String();
+		while (input.hasNextLine()) {
+			in = input.readLine();
+		}
 	}
 	
 	// number of teams
@@ -16,7 +26,7 @@ public class BaseballElimination {
 	}
 	
 	// number of wins for given team
-	public int wins(String teams) {
+	public int wins(String team) {
 		return 0;
 	}
 	
@@ -44,4 +54,9 @@ public class BaseballElimination {
 	public Iterable<String> certificateOfElimination(String team) {
 		return null;
 	}
+	
+	public static void main(String[] args) {
+		BaseballElimination be = new BaseballElimination(args[0]);
+	}
+		
 }
