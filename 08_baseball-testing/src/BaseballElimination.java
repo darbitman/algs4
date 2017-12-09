@@ -1,5 +1,9 @@
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.ST;
+import edu.princeton.cs.algs4.SET;
+import edu.princeton.cs.algs4.FlowNetwork;
+import edu.princeton.cs.algs4.FlowEdge;
+import edu.princeton.cs.algs4.FordFulkerson;
 
 public class BaseballElimination {
 	private final int wins[];  // number of wins for team i
@@ -8,6 +12,9 @@ public class BaseballElimination {
 	private final int gamesBetween[][];
 	private final ST<String, Integer> teamNamesAndIndices;
 	private final int numTeams;
+	private final String[] teamNames;
+	private final boolean isEliminated;
+	private final SET<String> certificateOfElimination;
 	
 	// create a baseball division from given filename in format specified below
 	public BaseballElimination(String filename) {
@@ -20,6 +27,7 @@ public class BaseballElimination {
 		remainingGames = new int[n];
 		gamesBetween = new int[n][n];
 		teamNamesAndIndices = new ST<String, Integer>();
+		teamNames = new String[n];
 		String in;
 		String[] inArray;
 		
@@ -30,10 +38,12 @@ public class BaseballElimination {
 			wins[i] = Integer.parseInt(inArray[1]);
 			losses[i] = Integer.parseInt(inArray[2]);
 			remainingGames[i] = Integer.parseInt(inArray[3]);
+			teamNames[i] = inArray[0];
 			for (int j = 0; j < n; j++) {
 				gamesBetween[i][j] = Integer.parseInt(inArray[4 + j]);
 			}
 		}
+		isEliminated = false;
 	}
 	
 	// number of teams
@@ -90,7 +100,51 @@ public class BaseballElimination {
 	
 	// subset R of teams that eliminates given team; null if not eliminated
 	public Iterable<String> certificateOfElimination(String team) {
-		return null;
+        if (!teamNamesAndIndices.contains(team)) {
+            throw new java.lang.IllegalArgumentException("remaining() has incorrect argument");
+        }
+        if (this.isEliminated) {
+            return this.certificateOfElimination;
+	}
+	
+	private void calculateElimination(String team) {
+	    // ID of team x to check for elimination by other teams
+        int teamX = this.teamNamesAndIndices.get(team);
+        // maximum wins team x could get
+        int maxWinsTeamX = w[teamX] + r[teamX];
+        certificateOfElimination = new SET<String>();
+        
+        // trivial solution
+        for (int i = 0; i < this.numTeams; i++) {
+            if (i != teamX && wins[i] > maxWinsTeamX) {
+                this.certificateOfElimination.add(teamNames[i]);
+            }
+        }
+        if (!certificateOfElimination.isEmpty()) {
+            this.isEliminated = true;
+        }
+        
+        // non-trivial solution
+        if (!this.isEliminated) {
+            int totalCombinations = 0;
+            // calculate number of different combinations of matches
+            for (int i = 0; i < this.numTeams; i++) {
+                for (int j = 0; j < this.numTeams; j++) {
+                    if (i != teamX && j != teamX && this.gamesBetween[i][j] != 0) {
+                        totalCombinations++;
+                    }
+                }
+            }
+            
+            // total vertices in flow network
+            // 2 for virtual source and virtual sink
+            int totalVertices = 2 + totalCombinations + (this.numTeams - 1);
+            
+            FlowNetwork flowNetwork = new FlowNetwork(totalVertices);
+            
+            
+        }
+        
 	}
 	
 	public static void main(String[] args) {
