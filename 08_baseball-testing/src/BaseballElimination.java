@@ -39,8 +39,9 @@ public class BaseballElimination {
             losses[i] = Integer.parseInt(inArray[2]);
             remainingGames[i] = Integer.parseInt(inArray[3]);
             teamNames[i] = inArray[0];
+            int offset = 4;
             for (int j = 0; j < n; j++) {  // j = team that i plays against
-                gamesBetween[i][j] = Integer.parseInt(inArray[4 + j]);
+                gamesBetween[i][j] = Integer.parseInt(inArray[j + offset]);
             }
         }
         isEliminated = false;
@@ -192,9 +193,12 @@ public class BaseballElimination {
     }
     
     public static void main(String[] args) {
-        BaseballElimination be = new BaseballElimination(args[2]);
+        BaseballElimination be = new BaseballElimination(args[3]);
+        // used for arg[3]
+        System.out.println(be.isEliminated("Atlanta"));
+        
         // used for arg[2]
-        System.out.println(be.isEliminated("Detroit"));
+        // System.out.println(be.isEliminated("Detroit"));
         
         // used for arg[1]
         // System.out.println(be.isEliminated("Montreal"));
