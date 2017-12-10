@@ -173,6 +173,21 @@ public class BaseballElimination {
                     }
                 }
             }
+            
+            // find teams that eliminate team x
+            FordFulkerson maxFlow = new FordFulkerson(flowNetwork, source, sink);
+            for (int i = this.numTeams; i < this.numTeams + totalCombinations; i++) {
+                if (maxFlow.inCut(i)) {
+                    for (FlowEdge e: flowNetwork.adj(i)) {
+                        if (e.to() != i && !this.certificateOfElimination.contains(this.teamNames[e.to()])) {
+                            this.certificateOfElimination.add(this.teamNames[e.to()]);
+                        }
+                    }
+                }
+            }
+            if (!this.certificateOfElimination.isEmpty()) {
+                this.isEliminated = true;
+            }
         }
     }
     
