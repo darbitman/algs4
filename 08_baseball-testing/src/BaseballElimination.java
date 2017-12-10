@@ -28,22 +28,18 @@ public class BaseballElimination {
         gamesBetween = new int[n][n];
         teamNamesAndIndices = new ST<String, Integer>();
         teamNames = new String[n];
-        String in;
-        String[] inArray;
         
         for (int i = 0; i < n; i++) {  // i = team
-            in = input.readLine();
-            inArray = in.split(" +");
-            teamNamesAndIndices.put(inArray[0], i);
-            wins[i] = Integer.parseInt(inArray[1]);
-            losses[i] = Integer.parseInt(inArray[2]);
-            remainingGames[i] = Integer.parseInt(inArray[3]);
-            teamNames[i] = inArray[0];
-            int offset = 4;
+            teamNames[i] = input.readString();
+            teamNamesAndIndices.put(teamNames[i], i);
+            wins[i] = input.readInt();
+            losses[i] = input.readInt();
+            remainingGames[i] = input.readInt();
             for (int j = 0; j < n; j++) {  // j = team that i plays against
-                gamesBetween[i][j] = Integer.parseInt(inArray[j + offset]);
+                gamesBetween[i][j] = input.readInt();
             }
         }
+        
         isEliminated = false;
     }
     
@@ -108,6 +104,7 @@ public class BaseballElimination {
         if (!teamNamesAndIndices.contains(team)) {
             throw new java.lang.IllegalArgumentException("remaining() has incorrect argument");
         }
+        calculateElimination(team);
         if (this.isEliminated) {
             return this.certificateOfElimination;
         }
@@ -124,7 +121,6 @@ public class BaseballElimination {
         for (int i = 0; i < this.numTeams; i++) {
             if (i != teamX && wins[i] > maxWinsTeamX) {
                 this.certificateOfElimination.add(teamNames[i]);
-                this.isEliminated = true;
                 break;
             }
         }
@@ -151,7 +147,7 @@ public class BaseballElimination {
             
             // add team vertices
             FlowEdge edge;
-            for (int i = 0; i < this.numTeams - 1; i++) {
+            for (int i = 0; i < this.numTeams; i++) {
                 if (i != teamX) {
                     edge = new FlowEdge(i, sink, (maxWinsTeamX - wins[i] > 0) ? maxWinsTeamX - wins[i] : 0);
                     flowNetwork.addEdge(edge);
@@ -193,19 +189,8 @@ public class BaseballElimination {
     }
     
     public static void main(String[] args) {
-        BaseballElimination be = new BaseballElimination(args[3]);
-        // used for arg[3]
-        System.out.println(be.isEliminated("Atlanta"));
-        
-        // used for arg[2]
-        // System.out.println(be.isEliminated("Detroit"));
-        
-        // used for arg[1]
-        // System.out.println(be.isEliminated("Montreal"));
-        
-        // used for arg[0]
-//        System.out.println(be.against("Poland", "Brazil"));
-//        System.out.println(be.remaining("Egypt"));
-        
+        BaseballElimination be = new BaseballElimination(args[0]);
+
+        System.out.println(be.isEliminated("Toronto"));        
     }
 }
