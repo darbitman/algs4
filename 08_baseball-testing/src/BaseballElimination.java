@@ -173,16 +173,6 @@ public class BaseballElimination {
                     }
                 }
             }
-            
-            FordFulkerson maxFlow = new FordFulkerson(flowNetwork, source, sink);
-            for (FlowEdge e: flowNetwork.adj(source)) {
-                if (e.capacity() - e.flow() != 0) {
-                    this.isEliminated = true;
-                }
-            }
-            if (!this.certificateOfElimination.isEmpty()) {
-                this.isEliminated = true;
-            }
         }
     }
     
