@@ -115,10 +115,8 @@ public class BaseballElimination {
     
     private void calculateElimination(String team) {
         this.isEliminated = false;
-        // ID of team x to check for elimination by other teams
-        int teamX = this.teamNamesAndIndices.get(team);
-        // maximum wins team x could get
-        int maxWinsTeamX = wins[teamX] + remainingGames[teamX];
+        int teamX = this.teamNamesAndIndices.get(team);  // ID of team x to check for elimination by other teams
+        int maxWinsTeamX = wins[teamX] + remainingGames[teamX];  // maximum wins team x could get
         certificateOfElimination = new SET<String>();
         
         // trivial solution
@@ -145,35 +143,31 @@ public class BaseballElimination {
             
             // total vertices in flow network
             // 2 for virtual source and virtual sink
-            int totalVertices = 2 + totalCombinations + (this.numTeams - 1);
+            int totalVertices = 2 + totalCombinations + this.numTeams;  // will skip team x vertex, but count it
             int source = totalVertices - 2;
             int sink = totalVertices - 1;
             FlowNetwork flowNetwork = new FlowNetwork(totalVertices);
             
             // add team vertices
             FlowEdge edge;
-            int wTeamVertex = totalCombinations; // begin destination team vertex numbering after last game vertex
             for (int i = 0; i < this.numTeams - 1; i++) {
                 if (i != teamX) {
-                    edge = new FlowEdge(wTeamVertex++, sink, (maxWinsTeamX - wins[i] > 0) ? maxWinsTeamX - wins[i] : 0);
+                    edge = new FlowEdge(i, sink, (maxWinsTeamX - wins[i] > 0) ? maxWinsTeamX - wins[i] : 0);
                     flowNetwork.addEdge(edge);
                 }
             }
             
             // add game vertices
-            int wGameVertex = 0;
+            int wGameVertex = this.numTeams;
             for (int i = 0; i < this.numTeams; i++) {
-                for (int j = i + 1; j < this.numTeams; j++) {  // only need to look at half of the matrix because the transpose is identical
+                for (int j = i + 1; j < this.numTeams; j++) {  // ignore half of the matrix because the transpose is identical. ignore diagonal
                     // ignore team that is tested for elimination. ignore if there are no games between
                     if (i != teamX && j != teamX && gamesBetween[i][j] != 0) {
                         edge = new FlowEdge(source, wGameVertex, gamesBetween[i][j]);  // edge from source to game
                         flowNetwork.addEdge(edge);
-                        // compute team vertex
-                        wTeamVertex = totalCombinations + i - (i > teamX ? 1 : 0);  // add edge from game to one of its teams
-                        edge = new FlowEdge(wGameVertex, wTeamVertex, Integer.MAX_VALUE);
+                        edge = new FlowEdge(wGameVertex, i, Integer.MAX_VALUE);
                         flowNetwork.addEdge(edge);
-                        wTeamVertex = totalCombinations + j - (j > teamX ? 1 : 0);  // add edge from game to the other team
-                        edge = new FlowEdge(wGameVertex, wTeamVertex, Integer.MAX_VALUE);
+                        edge = new FlowEdge(wGameVertex, j, Integer.MAX_VALUE);
                         flowNetwork.addEdge(edge);
                         wGameVertex++;
                     }
