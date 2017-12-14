@@ -1,4 +1,8 @@
+import edu.princeton.cs.algs4.SET;
+
 public class BoggleSolver {
+    private SET<String> dict;  //  dictionary of valid words
+    
     
     // Initializes the data structure using the given array of strings as the dictionary.
     // (You can assume each word in the dictionary contains only the uppercase letters A through Z.)
