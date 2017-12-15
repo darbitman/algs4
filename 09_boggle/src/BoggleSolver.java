@@ -1,15 +1,18 @@
 import edu.princeton.cs.algs4.SET;
+import edu.princeton.cs.algs4.TrieST;
+import edu.princeton.cs.algs4.Bag;
 
 public class BoggleSolver {
-    private final SET<String> dict;  //  dictionary of valid words
+    private final TrieST<Integer> dict;  //  dictionary of valid words
     
     
     // Initializes the data structure using the given array of strings as the dictionary.
     // (You can assume each word in the dictionary contains only the uppercase letters A through Z.)
     public BoggleSolver(String[] dictionary) {
-        dict = new SET<String>;
+        int val = 0;
+        dict = new TrieST<Integer>();
         for (String s: dictionary) {
-            dict.add(s);
+            dict.put(s, val++);
         }
     }
     
