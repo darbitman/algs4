@@ -195,7 +195,7 @@ public class BoggleBoard {
      * Unit tests the BoggleBoard data type.
      */
     public static void main(String[] args) {
-
+/*
         // initialize a 4-by-4 board using Hasbro dice
         StdOut.println("Hasbro board:");
         BoggleBoard board1 = new BoggleBoard();
@@ -222,6 +222,11 @@ public class BoggleBoard {
 
         // initialize a 4-by-4 board from a file
         String filename = "board-quinquevalencies.txt";
+        StdOut.println("4-by-4 board from file " + filename + ":");
+        BoggleBoard board4 = new BoggleBoard(filename);
+        StdOut.println(board4);
+        StdOut.println();*/
+        String filename = "C:\\Users\\Dmitriy\\eclipse-workspace\\algs4\\09_boggle\\src\\board4x4.txt";
         StdOut.println("4-by-4 board from file " + filename + ":");
         BoggleBoard board4 = new BoggleBoard(filename);
         StdOut.println(board4);
