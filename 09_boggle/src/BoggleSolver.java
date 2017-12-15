@@ -1,12 +1,16 @@
 import edu.princeton.cs.algs4.SET;
 
 public class BoggleSolver {
-    private SET<String> dict;  //  dictionary of valid words
+    private final SET<String> dict;  //  dictionary of valid words
     
     
     // Initializes the data structure using the given array of strings as the dictionary.
     // (You can assume each word in the dictionary contains only the uppercase letters A through Z.)
     public BoggleSolver(String[] dictionary) {
+        dict = new SET<String>;
+        for (String s: dictionary) {
+            dict.add(s);
+        }
     }
     
     // Returns the set of all valid words in the given Boggle board, as an Iterable.
