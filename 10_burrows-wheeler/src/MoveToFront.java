@@ -1,5 +1,6 @@
-//import edu.princeton.cs.algs4.BinaryStdIn;
-//import edu.princeton.cs.algs4.BinaryStdOut;
+import edu.princeton.cs.algs4.BinaryStdIn;
+import edu.princeton.cs.algs4.BinaryStdOut;
+import edu.princeton.cs.algs4.MinPQ;
 
 public class MoveToFront {
     // apply move-to-front encoding, reading from standard input and writing to standard output
@@ -8,12 +9,19 @@ public class MoveToFront {
     
     // apply move-to-front decoding, reading from standard input and writing to standard output
     public static void decode() {
+        // do something
     }
     
     // Burrows-Wheeler transform
     // Given a typical English text file, transform it into a text file in which
     // sequences of the same character occur near each other many times.
     private static void bwTransform() {
+        // do something
+    }
+    
+    // initialize ordered sequency of 256 extended ASCII characters
+    // i-th position = i-th extended ASCII
+    private static void initializeOrderedSequence() {
         // do something
     }
     
