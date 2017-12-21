@@ -43,7 +43,16 @@ public class MoveToFront {
     
     // apply move-to-front decoding, reading from standard input and writing to standard output
     public static void decode() {
-        // do something
+        int[] code = new int[MAX];
+        // initialize ordered sequency of 256 extended ASCII characters
+        // i-th position = i-th extended ASCII
+        for (int i = 0; i < MAX; i++) {
+            code[i] = i;
+        }
+        
+        int readIntBinary;
+        while (true) {
+        }
     }
     public static void main(String[] args) {
         // TODO Auto-generated method stub
