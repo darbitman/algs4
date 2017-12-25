@@ -50,10 +50,18 @@ public class MoveToFront {
             code[i] = i;
         }
         
-        int readIntBinary;
+        int readIntBinary, first;
         while (true) {
+            readIntBinary = BinaryStdIn.readByte();
+            first = code[readIntBinary];
+            BinaryStdOut.write(first, 8);
+            for (int i = readIntBinary; i > 0 ; i--) {
+                code[i] = code[i - 1];
+            }
+            code[0] = first;
         }
     }
+    
     public static void main(String[] args) {
         // TODO Auto-generated method stub
 
