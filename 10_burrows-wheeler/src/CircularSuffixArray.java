@@ -1,10 +1,10 @@
 
 public class CircularSuffixArray {
-    String originalSuffix;
-    int length;
-    int[] index;
-    String catString;
-    CircString[] circStringArray;
+    private String originalSuffix;
+    private int length;
+    private int[] index;
+    private String catString;
+    private CircString[] circStringArray;
     
     
     private class CircString {
@@ -22,11 +22,13 @@ public class CircularSuffixArray {
         catString = s + s.substring(0, length - 1);
         circStringArray = new CircString[length];
         for (int i = 0; i < length; i++) {
+            circStringArray[i] = new CircString();
             circStringArray[i].begin = i;
             circStringArray[i].index = i;
         }
         
         sort();
+        
         for (int i = 0; i < length; i++) {
             System.out.println(catString.substring(circStringArray[i].begin, circStringArray[i].begin + length));
         }
@@ -38,7 +40,7 @@ public class CircularSuffixArray {
         for (int d = length - 1; d >= 0; d--) {  // LSD radix sort
             int[] count = new int[R + 1];
             for (int i = 0; i < length; i++) {  // update counts for all entries at position d in string array
-                count[catString.substring(circStringArray[i].begin, circStringArray[i].begin + length).charAt(d)]++;
+                count[catString.substring(circStringArray[i].begin, circStringArray[i].begin + length).charAt(d) + 1]++;
             }
             for (int r = 0; r < R; r++) {  // update cumulates
                 count[r + 1] += count[r];
@@ -63,11 +65,10 @@ public class CircularSuffixArray {
             throw new java.lang.IllegalArgumentException("index() argument i is out of bounds");
         }
         return circStringArray[i].index;
-        
     }
 
     // unit testing (required)
     public static void main(String[] args) {
-        CircularSuffixArray test = new CircularSuffixArray("ABRACADABRA!");
+//        CircularSuffixArray test = new CircularSuffixArray("ABRACADABRA!");
     }
 }
