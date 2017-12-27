@@ -1,6 +1,5 @@
 import edu.princeton.cs.algs4.BinaryStdIn;
 import edu.princeton.cs.algs4.BinaryStdOut;
-import edu.princeton.cs.algs4.StdOut;
 
 public class MoveToFront {
     private static final int MAX = 256;
@@ -16,10 +15,10 @@ public class MoveToFront {
         
         char readCharBinary;
         int swapTemp, swapNext;
-        while (true) {
+        while (!BinaryStdIn.isEmpty()) {
             readCharBinary = BinaryStdIn.readChar();
             if (readCharBinary == code[0]) {
-                StdOut.println(readCharBinary);
+                BinaryStdOut.write(readCharBinary);
                 BinaryStdOut.write(0, 8);               
             }
             else {
@@ -39,6 +38,7 @@ public class MoveToFront {
                 }
             }
         }
+        BinaryStdOut.flush();
     }
     
     // apply move-to-front decoding, reading from standard input and writing to standard output
@@ -51,20 +51,20 @@ public class MoveToFront {
         }
         
         int readIntBinary, first;
-        while (true) {
+        while (!BinaryStdIn.isEmpty()) {
             readIntBinary = BinaryStdIn.readByte();
             first = code[readIntBinary];
             BinaryStdOut.write(first, 8);
-            for (int i = readIntBinary; i > 0 ; i--) {
+            for (int i = readIntBinary; i > 0; i--) {
                 code[i] = code[i - 1];
             }
             code[0] = first;
         }
+        BinaryStdOut.flush();
     }
     
     public static void main(String[] args) {
-        // TODO Auto-generated method stub
-
+        MoveToFront.encode();
+        MoveToFront.decode();
     }
-
 }

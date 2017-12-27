@@ -1,9 +1,7 @@
 
 public class CircularSuffixArray {
-    private String originalSuffix;
-    private int length;
-    private int[] index;
-    private String catString;
+    private final int length;
+    private final String catString;
     private CircString[] circStringArray;
     
     
@@ -17,7 +15,6 @@ public class CircularSuffixArray {
         if (s == null) {
             throw new java.lang.IllegalArgumentException("argument to constructor is null");
         }
-        originalSuffix = s;
         length = s.length();
         catString = s + s.substring(0, length - 1);
         circStringArray = new CircString[length];
@@ -29,9 +26,9 @@ public class CircularSuffixArray {
         
         sort();
         
-        for (int i = 0; i < length; i++) {
-            System.out.println(catString.substring(circStringArray[i].begin, circStringArray[i].begin + length));
-        }
+//        for (int i = 0; i < length; i++) {
+//            System.out.println(catString.substring(circStringArray[i].begin, circStringArray[i].begin + length));
+//        }
     }
     
     private void sort() {
@@ -55,7 +52,7 @@ public class CircularSuffixArray {
     }
     
     // length of s
-    public int lenght() {
+    public int length() {
         return this.length;
     }
     
