@@ -19,7 +19,7 @@ public class MoveToFront {
             readCharBinary = BinaryStdIn.readChar();
             if (readCharBinary == code[0]) {
                 BinaryStdOut.write(readCharBinary);
-                BinaryStdOut.write(0, 8);               
+                BinaryStdOut.write(0, 8);
             }
             else {
                 swapTemp = code[0];
@@ -63,8 +63,14 @@ public class MoveToFront {
         BinaryStdOut.flush();
     }
     
+    // if args[0] is '-', apply move-to-front encoding
+    // if args[0] is '+', apply move-to-front decoding
     public static void main(String[] args) {
-        MoveToFront.encode();
-        MoveToFront.decode();
+        if (args[0].equals("-")) {
+            MoveToFront.encode();
+        }
+        else {
+            MoveToFront.decode();
+        }
     }
 }

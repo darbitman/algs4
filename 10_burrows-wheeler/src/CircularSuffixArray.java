@@ -1,3 +1,5 @@
+import edu.princeton.cs.algs4.BinaryStdOut;
+import edu.princeton.cs.algs4.StdOut;
 
 public class CircularSuffixArray {
     private final int length;
@@ -66,6 +68,9 @@ public class CircularSuffixArray {
 
     // unit testing (required)
     public static void main(String[] args) {
-//        CircularSuffixArray test = new CircularSuffixArray("ABRACADABRA!");
+        CircularSuffixArray testCSA = new CircularSuffixArray("ABRACADABRA!");
+        for (int i = 0; i < testCSA.length(); i++) {
+            StdOut.println(testCSA.index(i));
+        }
     }
 }

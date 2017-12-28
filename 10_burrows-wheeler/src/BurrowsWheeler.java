@@ -2,6 +2,7 @@ import edu.princeton.cs.algs4.BinaryStdOut;
 import edu.princeton.cs.algs4.BinaryStdIn;
 
 public class BurrowsWheeler {
+    private 
     // apply Burrows-Wheeler transform, reading from standard input and writing to standard output
     public static void transform() {
         String s = BinaryStdIn.readString();
@@ -27,10 +28,25 @@ public class BurrowsWheeler {
 
     // apply Burrows-Wheeler inverse transform, reading from standard input and writing to standard output
     public static void inverseTransform() {
+        int first = BinaryStdIn.readInt();
+        StringBuilder sb = new StringBuilder();  // t[]
+        char readBinaryChar;
+        while (!BinaryStdIn.isEmpty()) {
+            readBinaryChar = BinaryStdIn.readChar();
+            sb = sb.append(readBinaryChar);
+        }
+        int length = sb.length();               // length of t[]
         BinaryStdOut.flush();
     }
+    
+    // if args[0] is '-', apply Burrows-Wheeler transform
+    // if args[0] is '+', apply Burrows-Wheeler inverse transform
     public static void main(String[] args) {
-        BurrowsWheeler.transform();
-        BurrowsWheeler.inverseTransform();
+        if (args[0].equals("-")) {
+            BurrowsWheeler.transform();
+        }
+        else {
+            BurrowsWheeler.inverseTransform();
+        }
     }
 }
