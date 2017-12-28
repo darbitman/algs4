@@ -4,7 +4,7 @@ import edu.princeton.cs.algs4.BinaryStdIn;
 
 public class BurrowsWheeler {
     private static final int R = 256;  // alphabet size
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     
     // apply Burrows-Wheeler transform, reading from standard input and writing to standard output
     public static void transform() {
@@ -92,12 +92,11 @@ public class BurrowsWheeler {
     // if args[0] is '-', apply Burrows-Wheeler transform
     // if args[0] is '+', apply Burrows-Wheeler inverse transform
     public static void main(String[] args) {
-        BurrowsWheeler.inverseTransform();
-//        if (args[0].equals("-")) {
-//            BurrowsWheeler.transform();
-//        }
-//        else {
-//            BurrowsWheeler.inverseTransform();
-//        }
+        if (args[0].equals("-")) {
+            BurrowsWheeler.transform();
+        }
+        else {
+            BurrowsWheeler.inverseTransform();
+        }
     }
 }
