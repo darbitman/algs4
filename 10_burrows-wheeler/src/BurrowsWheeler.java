@@ -36,21 +36,24 @@ public class BurrowsWheeler {
         for (int r = 0; r < R; r++) {
             fifoIndices[r] = new Queue<Integer>();
         }
-        StringBuilder binaryInputString = new StringBuilder();
-        char binaryInputChar;
-        int counter = 0;
+        String binaryInputString = "";
         int length;  // length of input
         int first;
         // Get input binary stream
         first = BinaryStdIn.readInt();
         while (!BinaryStdIn.isEmpty()) {
-            binaryInputChar = BinaryStdIn.readChar();
-            binaryInputString = binaryInputString.append(binaryInputChar);
-            count[binaryInputChar + 1]++;  // update counts
-            fifoIndices[binaryInputChar].enqueue(counter++);  // array of FIFOs of indices of binaryInputChar in input binary stream
+            binaryInputString = BinaryStdIn.readString();
+            // binaryInputChar = BinaryStdIn.readChar();
+            // binaryInputString = binaryInputString.append(binaryInputChar);
+            // count[binaryInputChar + 1]++;  // update counts
+            // fifoIndices[binaryInputChar].enqueue(counter++);  // array of FIFOs of indices of binaryInputChar in input binary stream
         }
         length = binaryInputString.length();
-
+        for (int i = 0; i < length; i++) {
+            count[binaryInputString.charAt(i) + 1]++;
+            fifoIndices[binaryInputString.charAt(i)].enqueue(i);
+        }
+        
         for (int r = 0; r < R; r++) {  // update cumulates
             count[r + 1] += count[r];
         }
