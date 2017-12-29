@@ -28,14 +28,14 @@ public class CircularSuffixArray {
     }
     
     private void sort() {
-        int R = 256;
+        int radix = 256;  // Radix R
         CircString[] auxCircStringArray = new CircString[length];
         for (int d = length - 1; d >= 0; d--) {  // LSD radix sort
-            int[] count = new int[R + 1];
+            int[] count = new int[radix + 1];
             for (int i = 0; i < length; i++) {  // update counts for all entries at position d in string array
                 count[catString.substring(circStringArray[i].begin, circStringArray[i].begin + length).charAt(d) + 1]++;
             }
-            for (int r = 0; r < R; r++) {  // update cumulates
+            for (int r = 0; r < radix; r++) {  // update cumulates
                 count[r + 1] += count[r];
             }
             for (int i = 0; i < length; i++) {  // move items into aux array
