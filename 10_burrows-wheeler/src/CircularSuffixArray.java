@@ -5,7 +5,6 @@ public class CircularSuffixArray {
     private final String catString;
     private CircString[] circStringArray;
     
-    
     private class CircString {
         private int begin;
         private int index;
@@ -26,9 +25,6 @@ public class CircularSuffixArray {
         }
         
         sort();
-//        for (int i = 0; i < length; i++) {
-//            System.out.println(catString.substring(circStringArray[i].begin, circStringArray[i].begin + length));
-//        }
     }
     
     private void sort() {
@@ -66,7 +62,7 @@ public class CircularSuffixArray {
 
     // unit testing (required)
     public static void main(String[] args) {
-        CircularSuffixArray testCSA = new CircularSuffixArray("ABRACADABRA!");
+        CircularSuffixArray testCSA = new CircularSuffixArray("CADABRA!ABRA");
         for (int i = 0; i < testCSA.length(); i++) {
             StdOut.println(testCSA.index(i));
         }
