@@ -3,6 +3,7 @@ import edu.princeton.cs.algs4.BinaryStdOut;
 
 public class MoveToFront {
     private static final int MAX = 256;
+    private static final boolean DEBUG = false;
     
     // apply move-to-front encoding, reading from standard input and writing to standard output
     public static void encode() {
@@ -15,25 +16,52 @@ public class MoveToFront {
         
         char readCharBinary;
         int swapTemp, swapNext;
-        while (!BinaryStdIn.isEmpty()) {
-            readCharBinary = BinaryStdIn.readChar();
-            if (readCharBinary == code[0]) {
-                BinaryStdOut.write(readCharBinary);
-                BinaryStdOut.write(0, 8);
-            }
-            else {
-                swapTemp = code[0];
-                for (int i = 1; i < MAX; i++) {
-                    if (readCharBinary == code[i]) {
-                        code[0] = code[i];
-                        code[i] = swapTemp;
-                        BinaryStdOut.write(i, 8);
-                        break;
+        if (DEBUG) {
+            String testInput = "ABRACADABRA!";
+            int length = testInput.length();
+            for (int j = 0; j < length; j++) {
+                readCharBinary = testInput.charAt(j);
+                if (readCharBinary == code[0]) {
+                    BinaryStdOut.write(0, 8);
+                }
+                else {
+                    swapTemp = code[0];
+                    for (int i = 1; i < MAX; i++) {
+                        if (readCharBinary == code[i]) {
+                            code[0] = code[i];
+                            code[i] = swapTemp;
+                            BinaryStdOut.write(i, 8);
+                            break;
+                        }
+                        else {
+                            swapNext = code[i];
+                            code[i] = swapTemp;
+                            swapTemp = swapNext;
+                        }
                     }
-                    else {
-                        swapNext = code[i];
-                        code[i] = swapTemp;
-                        swapTemp = swapNext;
+                }
+            }
+        }
+        else {
+            while (!BinaryStdIn.isEmpty()) {
+                readCharBinary = BinaryStdIn.readChar();
+                if (readCharBinary == code[0]) {
+                    BinaryStdOut.write(0, 8);
+                }
+                else {
+                    swapTemp = code[0];
+                    for (int i = 1; i < MAX; i++) {
+                        if (readCharBinary == code[i]) {
+                            code[0] = code[i];
+                            code[i] = swapTemp;
+                            BinaryStdOut.write(i, 8);
+                            break;
+                        }
+                        else {
+                            swapNext = code[i];
+                            code[i] = swapTemp;
+                            swapTemp = swapNext;
+                        }
                     }
                 }
             }

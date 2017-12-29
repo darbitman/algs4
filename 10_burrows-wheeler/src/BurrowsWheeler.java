@@ -4,7 +4,7 @@ import edu.princeton.cs.algs4.BinaryStdIn;
 
 public class BurrowsWheeler {
     private static final int R = 256;  // alphabet size
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     
     // apply Burrows-Wheeler transform, reading from standard input and writing to standard output
     public static void transform() {
@@ -36,38 +36,39 @@ public class BurrowsWheeler {
         for (int r = 0; r < R; r++) {
             fifoIndices[r] = new Queue<Integer>();
         }
-        StringBuilder sb = new StringBuilder();  // t[]
-        char readBinaryChar;
+        String binaryInputString;
+        char binaryInputChar;
         int counter = 0;
-        int length;  // length of t[]
+        int length;  // length of input
 
-
-        if (DEBUG == false) {
-            BinaryStdIn.readInt();
-            while (!BinaryStdIn.isEmpty()) {
-                readBinaryChar = BinaryStdIn.readChar();
-                sb = sb.append(readBinaryChar);
-                count[readBinaryChar + 1]++;  // update counts
-                fifoIndices[readBinaryChar].enqueue(counter++);
+        // Get input binary stream
+        if (DEBUG) {
+            binaryInputString = "ARD!RCAAAABB";
+            length = binaryInputString.length();
+            for (int i = 0; i < length; i++) {
+                count[binaryInputString.charAt(i) + 1]++;   // update counts
+                fifoIndices[binaryInputString.charAt(i)].enqueue(i);
             }
-            length = sb.length();
         }
         else {
-            sb = sb.append("ARD!RCAAAABB");
-            length = sb.length();
-            for (int i = 0; i < length; i++) {
-                count[sb.charAt(i) + 1]++;   // update counts
-                fifoIndices[sb.charAt(i)].enqueue(i);
+            binaryInputString = new String();
+            BinaryStdIn.readInt();
+            while (!BinaryStdIn.isEmpty()) {
+                binaryInputChar = BinaryStdIn.readChar();
+                binaryInputString += binaryInputChar;
+                count[binaryInputChar + 1]++;  // update counts
+                fifoIndices[binaryInputChar].enqueue(counter++);  // array of FIFOs of indices of binaryInputChar in input binary stream
             }
+            length = binaryInputString.length();
         }
 
 
         for (int r = 0; r < R; r++) {  // update cumulates
             count[r + 1] += count[r];
         }
-        char[] tAux = new char[length];
-        for (int i = 0; i < length; i++) {  // sorted first column
-            tAux[count[sb.charAt(i)]++] = sb.charAt(i);
+        char[] tAux = new char[length];  // sorted first column
+        for (int i = 0; i < length; i++) {
+            tAux[count[binaryInputString.charAt(i)]++] = binaryInputString.charAt(i);
         }
         
         // store corresponding index for relative order
@@ -77,15 +78,11 @@ public class BurrowsWheeler {
             next[i] = fifoIndices[tAux[i]].dequeue();
         }
 
-        StringBuilder sbDecoded = new StringBuilder();
         int nextIndex = 0;
-        char currentChar;
         for (int i = 0; i < length; i++) {
             nextIndex = next[nextIndex];
-            currentChar = tAux[nextIndex];
-            sbDecoded = sbDecoded.append(currentChar);
+            BinaryStdOut.write(tAux[nextIndex]);
         }
-        BinaryStdOut.write(sbDecoded.toString());
         BinaryStdOut.flush();
     }
     

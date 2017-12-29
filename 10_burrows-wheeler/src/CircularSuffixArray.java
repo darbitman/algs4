@@ -1,4 +1,3 @@
-import edu.princeton.cs.algs4.BinaryStdOut;
 import edu.princeton.cs.algs4.StdOut;
 
 public class CircularSuffixArray {
@@ -27,7 +26,6 @@ public class CircularSuffixArray {
         }
         
         sort();
-        
 //        for (int i = 0; i < length; i++) {
 //            System.out.println(catString.substring(circStringArray[i].begin, circStringArray[i].begin + length));
 //        }
