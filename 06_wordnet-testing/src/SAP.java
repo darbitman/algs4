@@ -8,12 +8,20 @@ import edu.princeton.cs.algs4.Queue;
 public final class SAP {
     private final Digraph g;
 
-    // constructor takes a digraph (not necessarily a DAG)
+    /**
+     * Construct a Shortest Ancestral Path object and assign the Digraph {@code g} to run on
+     * @param G Digraph (not necessarily a DAG)
+     */
     public SAP(Digraph G) {
         g = G;
     }
 
-    // length of shortest ancestral path between v and w; -1 if no such path
+    /**
+     * Find the length of shortest ancestral path between node {@code v} and node {@code w}
+     * @param v node
+     * @param w node
+     * @return path length between node {@code v} and node {@code w}, -1 if no such path
+     */
     public int length(int v, int w) {
         if (v < 0 || w < 0 || v > (g.V() - 1) || w > (g.V() - 1)) {
             throw new java.lang.IllegalArgumentException("length() called with a vertex not in digraph");
@@ -21,7 +29,12 @@ public final class SAP {
         return findSAP(v, w, "length");
     }
 
-    // a common ancestor of v and w that participates in a shortest ancestral path; -1 if no such path
+    /**
+     * Find the common ancestor of node {@code v} and node {@code w}
+     * @param v node
+     * @param w node
+     * @return common ancestor of node {@code v} and node {@code w}; -1 if no such ancestor
+     */
     public int ancestor(int v, int w) {
         if (v < 0 || w < 0 || v > (g.V() - 1) || w > (g.V() - 1)) {
             throw new java.lang.IllegalArgumentException("length() called with a vertex not in digraph");
@@ -29,6 +42,13 @@ public final class SAP {
         return findSAP(v, w, "ancestor");
     }
     
+    /**
+     * Find the shortest ancestral path length and common ancestor
+     * @param v node
+     * @param w node
+     * @param flag {"length" or "ancestor"} to indicate which to return
+     * @return shortest ancestral path length if {@code flag} = "length"; common ancestor if {@code flag} = "ancestor"
+     */
     private int findSAP(int v, int w, String flag) {
         // BFS search from w to every other vertex
         BreadthFirstDirectedPaths distFromW = new BreadthFirstDirectedPaths(g, w);
@@ -44,6 +64,7 @@ public final class SAP {
             marked[i] = false;
             distTo[i] = Integer.MAX_VALUE;
         }
+        
         Queue<Integer> qv = new Queue<Integer>();
         qv.enqueue(v);
         distTo[v] = 0;

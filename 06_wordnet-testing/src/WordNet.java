@@ -5,6 +5,7 @@ import edu.princeton.cs.algs4.ST;
 import java.util.ArrayList;
 
 public class WordNet {
+	// shortest ancestral path
     private final SAP sap;
     
     // maps IDs -> Nouns
