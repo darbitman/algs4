@@ -2,11 +2,14 @@ import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Digraph;
 // import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.ST;
+import edu.princeton.cs.algs4.Queue;
 import java.util.ArrayList;
 
 public class WordNet {
-	// shortest ancestral path
+    // shortest ancestral path
     private final SAP sap;
+    
+    private final Digraph g;
     
     // maps IDs -> Nouns
     private final ST<Integer, String> synsetIDmap;
@@ -46,7 +49,8 @@ public class WordNet {
             }
         }
         
-        Digraph g = new Digraph(synsetIDmap.size());
+        g = new Digraph(synsetIDmap.size());
+        // checkIfRooted();
         while (hypernymInput.hasNextLine()) {
             String[] tokens = hypernymInput.readLine().split(",");
             int tail = Integer.parseInt(tokens[0]);

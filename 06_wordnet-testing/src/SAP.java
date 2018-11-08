@@ -65,6 +65,7 @@ public final class SAP {
             distTo[i] = Integer.MAX_VALUE;
         }
         
+        // run BFS from v
         Queue<Integer> qv = new Queue<Integer>();
         qv.enqueue(v);
         distTo[v] = 0;
@@ -104,6 +105,13 @@ public final class SAP {
     }
 
     // length of shortest ancestral path between any vertex in v and any vertex in w; -1 if no such path
+    
+    /**
+     * Find the length of shortest ancestral path between nodes in {@code v} and nodes in {@code w}
+     * @param v Some iterable list of nodes
+     * @param w Some iterable list of nodes
+     * @return path length between nodes in {@code v} and nodes in {@code w}, -1 if no such path
+     */
     public int length(Iterable<Integer> v, Iterable<Integer> w) {
         if (v == null || w == null) {
             throw new java.lang.IllegalArgumentException("vector argument to length() is null");
@@ -205,7 +213,7 @@ public final class SAP {
         while (!StdIn.isEmpty()) {
             int v = StdIn.readInt();
             int w = StdIn.readInt();
-            int length   = sap.length(v, w);
+            int length = sap.length(v, w);
             int ancestor = sap.ancestor(v, w);
             StdOut.printf("length = %d, ancestor = %d\n", length, ancestor);
         }
