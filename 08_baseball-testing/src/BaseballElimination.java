@@ -118,6 +118,7 @@ public class BaseballElimination {
         certificateOfElimination = new SET<String>();
         
         // trivial solution
+        // check if some other team has won more games than maximum possible for team x
         for (int i = 0; i < this.numTeams; i++) {
             if (i != teamX && wins[i] > maxWinsTeamX) {
                 this.certificateOfElimination.add(teamNames[i]);
