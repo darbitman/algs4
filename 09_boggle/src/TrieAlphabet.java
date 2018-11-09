@@ -51,6 +51,13 @@ public class TrieAlphabet {
         root = add(root, key, 0);
     }
 
+    /**
+     * Recursive function to add the key
+     * @param x
+     * @param key
+     * @param d
+     * @return
+     */
     private Node add(Node x, String key, int d) {
         if (x == null) x = new Node();
         if (d == key.length()) {
