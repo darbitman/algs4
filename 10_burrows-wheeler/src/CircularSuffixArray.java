@@ -10,7 +10,10 @@ public class CircularSuffixArray {
         private int index;
     }
     
-    // circular suffix array of s
+    /**
+     * Construct a new circular suffix
+     * @param s string to construct circular suffix array from
+     */
     public CircularSuffixArray(String s) {
         if (s == null) {
             throw new java.lang.IllegalArgumentException("argument to constructor is null");
@@ -27,21 +30,33 @@ public class CircularSuffixArray {
         sort();
     }
     
+    /**
+     * Perform LSD radix sort
+     */
     private void sort() {
         int radix = 256;  // Radix R
         CircString[] auxCircStringArray = new CircString[length];
+        // run sort starting at the end of the string
         for (int d = length - 1; d >= 0; d--) {  // LSD radix sort
             int[] count = new int[radix + 1];
-            for (int i = 0; i < length; i++) {  // update counts for all entries at position d in string array
+            
+            // update counts for all entries at position d in string array
+            for (int i = 0; i < length; i++) {
                 count[catString.substring(circStringArray[i].begin, circStringArray[i].begin + length).charAt(d) + 1]++;
             }
-            for (int r = 0; r < radix; r++) {  // update cumulates
+            
+            // update cumulates
+            for (int r = 0; r < radix; r++) {
                 count[r + 1] += count[r];
             }
-            for (int i = 0; i < length; i++) {  // move items into aux array
+            
+            // move items into aux array
+            for (int i = 0; i < length; i++) {
                 auxCircStringArray[count[catString.substring(circStringArray[i].begin, circStringArray[i].begin + length).charAt(d)]++] = circStringArray[i];
             }
-            for (int i = 0; i < length; i++) {  // copy from aux array into original array
+            
+            // copy from aux array back into original array
+            for (int i = 0; i < length; i++) {
                 circStringArray[i] = auxCircStringArray[i];
             }
         }
@@ -62,7 +77,7 @@ public class CircularSuffixArray {
 
     // unit testing (required)
     public static void main(String[] args) {
-        CircularSuffixArray testCSA = new CircularSuffixArray("CADABRA!ABRA");
+        CircularSuffixArray testCSA = new CircularSuffixArray("ABRACADABRA!");
         for (int i = 0; i < testCSA.length(); i++) {
             StdOut.println(testCSA.index(i));
         }

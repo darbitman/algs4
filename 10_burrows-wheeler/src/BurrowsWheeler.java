@@ -5,7 +5,9 @@ import edu.princeton.cs.algs4.Queue;
 public class BurrowsWheeler {
     private static final int R = 256;  // alphabet size
     
-    // apply Burrows-Wheeler transform, reading from standard input and writing to standard output
+    /**
+     * Apply Burrows-Wheeler transform, reading from standard in and writing to standard out
+     */
     public static void transform() {
         String s = BinaryStdIn.readString();
 
@@ -29,7 +31,9 @@ public class BurrowsWheeler {
         BinaryStdOut.flush();
     }
 
-    // apply Burrows-Wheeler inverse transform, reading from standard input and writing to standard output
+    /**
+     * apply Burrows-Wheeler inverse transform, reading from standard in and writing to standard out
+     */
     public static void inverseTransform() {
         int[] count = new int[R + 1];  // used for count/cumulates for decoding
         Queue<Integer>[] fifoIndices = new Queue[R];
