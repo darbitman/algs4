@@ -36,6 +36,7 @@ public class BurrowsWheeler {
      */
     public static void inverseTransform() {
         int[] count = new int[R + 1];  // used for count/cumulates for decoding
+        @SuppressWarnings("unchecked")
         Queue<Integer>[] fifoIndices = new Queue[R];
         for (int r = 0; r < R; r++) {
             fifoIndices[r] = new Queue<Integer>();
@@ -55,13 +56,19 @@ public class BurrowsWheeler {
         length = binaryInputString.length();
         for (int i = 0; i < length; i++) {
             count[binaryInputString.charAt(i) + 1]++;
+            // store indices for each character as they appear in FIFO order
             fifoIndices[binaryInputString.charAt(i)].enqueue(i);
         }
         
-        for (int r = 0; r < R; r++) {  // update cumulates
+        // update cumulates
+        for (int r = 0; r < R; r++) {
             count[r + 1] += count[r];
         }
-        char[] tAux = new char[length];  // sorted first column
+        
+        // sorted first column
+        char[] tAux = new char[length];
+        
+        // move items from string into first column array in sorted order
         for (int i = 0; i < length; i++) {
             tAux[count[binaryInputString.charAt(i)]++] = binaryInputString.charAt(i);
         }

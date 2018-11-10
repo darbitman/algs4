@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import edu.princeton.cs.algs4.StdOut;
 
 public class CircularSuffixArray {
@@ -76,7 +77,7 @@ public class CircularSuffixArray {
     }
 
     // unit testing (required)
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         CircularSuffixArray testCSA = new CircularSuffixArray("ABRACADABRA!");
         for (int i = 0; i < testCSA.length(); i++) {
             StdOut.println(testCSA.index(i));
